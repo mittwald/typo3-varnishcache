@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2015-10-15T10:19:33Z"
+          product-name="mittwald_varnishcache">
+        <header/>
+        <body>
+            <trans-unit id="tx_varnishcache_domain_model_server.label">
+                <source>Varnish server configuration</source>
+            </trans-unit>
+            <trans-unit id="tx_varnishcache_domain_model_server.ip">
+                <source>IP address</source>
+            </trans-unit>
+            <trans-unit id="tx_varnishcache_domain_model_server.port">
+                <source>Port</source>
+            </trans-unit>
+            <trans-unit id="tx_varnishcache_domain_model_server.method">
+                <source>Varnish method name to clear cache frontend cache</source>
+            </trans-unit>
+            <trans-unit id="tx_varnishcache_domain_model_server.protocol">
+                <source>Curl protocol</source>
+            </trans-unit>
+            <trans-unit id="tx_varnishcache_domain_model_server.domains">
+                <source>Related domains</source>
+            </trans-unit>
+            <trans-unit id="tx_varnishcache_domain_model_server.strip_slashes">
+                <source>Remove trailing slash in current url?</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

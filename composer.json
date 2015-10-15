@@ -1,0 +1,18 @@
+{
+	"name": "mittwald/varnishcache",
+	"description": "Varnishcache TYPO3 Extension",
+	"homepage": "http://www.mittwald.de",
+	"license": "GPL-2",
+	"version": "0.1-dev",
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"require": {
+		"php": ">=5.3.2"
+	},
+	"type": "typo3-cms-extension",
+	"autoload": {
+		"psr-4": {
+			"Mittwald\\Varnishcache\\": "typo3conf/ext/varnishcache//Classes"
+		}
+	}
+}
