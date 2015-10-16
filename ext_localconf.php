@@ -28,6 +28,10 @@ if (!defined('TYPO3_MODE')) {
     die ('Access denied.');
 }
 
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectArrayInternalContentObject'] = array(
+        'className' => 'Mittwald\\Varnishcache\\Frontend\\ContentObject\\ContentObjectArrayInternalContentObject'
+);
+
 
 if (TYPO3_MODE === 'BE') {
     // On save page
