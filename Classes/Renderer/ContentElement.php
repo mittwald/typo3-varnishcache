@@ -13,6 +13,7 @@
 namespace Mittwald\Varnishcache\Renderer;
 
 
+use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
@@ -24,11 +25,18 @@ class ContentElement {
     public $cObj;
 
     /**
-     * @param string $content
-     * @param array $config
-     * @return string|void
+     * @return string
      */
-    public function render($content, array $config) {
+    public function render() {
+
+        if (($identifier = GeneralUtility::_GET('identifier')) && ($key = GeneralUtility::_GET('key'))) {
+            if ($row = $this->getCacheManager()->get($identifier)) {
+                /* @var $INTiS_cObj ContentObjectRenderer */
+                $INTiS_cObj = unserialize($row['cache_data']['INTincScript'][$key]['cObj']);
+                $INTiS_cObj->INT_include = 1;
+                return $INTiS_cObj->cObjGetSingle($row['cache_data']['INTincScript'][$key]['type'] . '_INT', $row['cache_data']['INTincScript'][$key]['conf']);
+            }
+        }
 
         if (!($cUid = GeneralUtility::_GET('element'))) {
             return '';
@@ -42,5 +50,12 @@ class ContentElement {
 
         return $this->cObj->cObjGetSingle('RECORDS', $configArray);
 
+    }
+
+    /**
+     * @return VariableFrontend
+     */
+    protected function getCacheManager() {
+        return \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Cache\\CacheManager')->getCache('cache_pages');
     }
 }
