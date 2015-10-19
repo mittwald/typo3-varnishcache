@@ -52,7 +52,7 @@ class StdWrap extends AbstractHook {
     public function getEsiTagService() {
         if (is_null($this->esiTagService)) {
             try {
-                $this->esiTagService = $this->objectManager->get('Mittwald\Varnishcache\Service\EsiTagService');
+                $this->esiTagService = $this->objectManager->get('Mittwald\\Varnishcache\\Service\\EsiTagService');
             } catch (\Exception $e) {
                 echo 'EsiTagService could not be initialised: ' . $e->getCode() . $e->getMessage();
             }
