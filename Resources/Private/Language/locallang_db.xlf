@@ -4,6 +4,12 @@
           product-name="mittwald_varnishcache">
         <header/>
         <body>
+            <trans-unit id="tt_content.exclude_from_cache">
+                <source>Exclude from cache and use ESI-Tag</source>
+            </trans-unit>
+            <trans-unit id="tt_content.alternative_content">
+                <source>Show following alternative content</source>
+            </trans-unit>
             <trans-unit id="tx_varnishcache_domain_model_server.label">
                 <source>Varnish server configuration</source>
             </trans-unit>

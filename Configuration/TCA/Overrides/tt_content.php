@@ -30,14 +30,14 @@ if (!defined('TYPO3_MODE')) {
 $tempColumns = array(
         'exclude_from_cache' => array(
                 'exclude' => 1,
-                'label' => 'ESI TAG',
+                'label' => 'LLL:EXT:varnishcache/Resources/Private/Language/locallang_db.xlf:tt_content.exclude_from_cache',
                 'config' => array(
                         'type' => 'check',
                 )
         ),
         'alternative_content' => array(
                 'exclude' => 1,
-                'label' => 'Alternative Content',
+                'label' => 'LLL:EXT:varnishcache/Resources/Private/Language/locallang_db.xlf:tt_content.alternative_content',
                 'config' => array(
                         'type' => 'group',
                         'internal_type' => 'db',
