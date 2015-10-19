@@ -41,8 +41,23 @@ class EsiTagService {
      */
     protected $typoscriptPluginSettingsService;
 
+    /**
+     * @var \Mittwald\Varnishcache\Service\TsConfigService
+     * @inject
+     */
+    protected $tsConfigService;
 
+    /**
+     * @param $content
+     * @param ContentObjectRenderer $contentObjectRenderer
+     * @return string
+     */
     public function render($content, ContentObjectRenderer $contentObjectRenderer) {
+
+        if (!($this->tsConfigService->isEsiAllowed($GLOBALS['TSFE']->id))) {
+            return $content;
+        }
+
         $this->contentObjectRenderer = $contentObjectRenderer;
         $typoScriptConfig = $this->typoscriptPluginSettingsService->getConfiguration();
 
