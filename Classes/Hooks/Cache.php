@@ -76,7 +76,7 @@ class Cache extends AbstractHook {
      */
     public function getVarnishCacheService() {
         if (is_null($this->varnishCacheService)) {
-            $this->varnishCacheService = $this->objectManager->get(VarnishCacheService::class);
+            $this->varnishCacheService = $this->objectManager->get('Mittwald\\Varnishcache\\Service\\VarnishCacheService');
         }
         return $this->varnishCacheService;
     }
