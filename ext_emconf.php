@@ -41,5 +41,19 @@ $EM_CONF[$_EXTKEY] = array(
             'extbase' => '6.2.0-7.99.99',
             'fluid' => '6.2.0-7.99.99',
         )
-    )
+    ),
+    'autoload' =>
+        array(
+            'psr-4' =>
+                array(
+                    'Mittwald\\Varnishcache\\' => 'Classes',
+                ),
+        ),
+    'autoload-dev' =>
+        array(
+            'psr-4' =>
+                array(
+                    'Mittwald\Varnishcache\\Tests\\' => 'Tests',
+                ),
+        ),
 );
