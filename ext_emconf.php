@@ -34,7 +34,7 @@ $EM_CONF[$_EXTKEY] = array(
     'dependencies' => 'extbase,fluid',
     'state' => 'stable',
     'clearCacheOnLoad' => '1',
-    'version' => '0.1',
+    'version' => '0.0.1',
     'constraints' => array(
         'depends' => array(
             'typo3' => '6.2.0-7.99.99',
@@ -42,18 +42,16 @@ $EM_CONF[$_EXTKEY] = array(
             'fluid' => '6.2.0-7.99.99',
         )
     ),
-    'autoload' =>
-        array(
-            'psr-4' =>
-                array(
-                    'Mittwald\\Varnishcache\\' => 'Classes',
-                ),
-        ),
-    'autoload-dev' =>
-        array(
-            'psr-4' =>
-                array(
-                    'Mittwald\Varnishcache\\Tests\\' => 'Tests',
-                ),
-        ),
+    'autoload' => array(
+        'psr-4' =>
+            array(
+                'Mittwald\\Varnishcache\\' => 'Classes',
+            ),
+    ),
+    'autoload-dev' => array(
+        'psr-4' =>
+            array(
+                'Mittwald\Varnishcache\\Tests\\' => 'Tests',
+            ),
+    ),
 );
