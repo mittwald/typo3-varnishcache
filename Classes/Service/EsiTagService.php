@@ -54,10 +54,6 @@ class EsiTagService {
      */
     public function render($content, ContentObjectRenderer $contentObjectRenderer) {
 
-        if (!($this->tsConfigService->isEsiAllowed($GLOBALS['TSFE']->id))) {
-            return $content;
-        }
-
         $this->contentObjectRenderer = $contentObjectRenderer;
         $typoScriptConfig = $this->typoscriptPluginSettingsService->getConfiguration();
 

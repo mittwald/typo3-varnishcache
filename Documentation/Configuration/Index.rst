@@ -20,9 +20,6 @@ Default configuration
 ---------------------
 * By default a new page type is set for uncached content elements. If you need another page type just change it by using constant editor.
 
-Disable use of ESI-Tags
------------------------
-* You can disable the use of ESI-Tags for each page. Just add ``mod.varnishcache.esiDisallowed = 1`` to pageTsConfig.
 
 Varnish Server Configuration
 ----------------------------
