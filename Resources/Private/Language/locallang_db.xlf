@@ -14,7 +14,7 @@
                 <source>Varnish server configuration</source>
             </trans-unit>
             <trans-unit id="tx_varnishcache_domain_model_server.ip">
-                <source>IP address</source>
+                <source>Server url/IP address</source>
             </trans-unit>
             <trans-unit id="tx_varnishcache_domain_model_server.port">
                 <source>Port</source>
