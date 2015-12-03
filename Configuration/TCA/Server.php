@@ -64,7 +64,7 @@ $GLOBALS['TCA']['tx_varnishcache_domain_model_server'] = array(
                         'label' => $languageFile . ':tx_varnishcache_domain_model_server.ip',
                         'config' => array(
                                 'type' => 'input',
-                                'size' => 30,
+                                'size' => 255,
                                 'eval' => 'trim, required'
                         ),
                 ),
