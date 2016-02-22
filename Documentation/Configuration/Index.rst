@@ -19,7 +19,7 @@ Target group: **Developers**
 Default configuration
 ---------------------
 * By default a new page type is set for uncached content elements. If you need another page type just change it by using constant editor.
-
+* Make sure static typoscript is included into page template
 
 Varnish Server Configuration
 ----------------------------
