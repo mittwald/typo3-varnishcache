@@ -7,7 +7,22 @@ if (!defined('TYPO3_MODE')) {
 $languageFile = 'LLL:EXT:varnishcache/Resources/Private/Language/locallang_db.xlf';
 
 $GLOBALS['TCA']['tx_varnishcache_domain_model_server'] = array(
-        'ctrl' => $GLOBALS['TCA']['tx_varnishcache_domain_model_server']['ctrl'],
+        'ctrl' => array(
+                'title' => $languageFile . ':tx_varnishcache_domain_model_server.label',
+                'label' => 'ip',
+                'tstamp' => 'tstamp',
+                'crdate' => 'crdate',
+                'cruser_id' => 'cruser_id',
+                'dividers2tabs' => true,
+                'delete' => 'deleted',
+                'enablecolumns' => array(
+                    'disabled' => 'hidden',
+                    'starttime' => 'starttime',
+                    'endtime' => 'endtime',
+                ),
+                'searchFields' => 'title,',
+                'iconfile' => 'EXT:varnishcache/Resources/Public/Icons/server.svg'
+        ),
         'interface' => array(
                 'showRecordFieldList' => ' hidden, ip, port, method, protocol, strip_slashes, domains',
         ),
@@ -124,3 +139,5 @@ $GLOBALS['TCA']['tx_varnishcache_domain_model_server'] = array(
                 )
         ),
 );
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_varnishcache_domain_model_server');
