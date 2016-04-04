@@ -27,3 +27,16 @@ Varnish Server Configuration
 .. image:: ../Images/varnish-configuration-entity.png
 * If fully configured, varnish cache is cleared automaticcly for each configured domain on "Clear frontend cache", "Clear current page cache" or even a record has been changed on page.
 
+Default BAN Method for VCL
+--------------------------
+.. code-block:: python
+
+if (req.request == "BAN") {
+    if (req.http.X-Host) {
+        ban("req.http.host == " + req.http.X-Host + " && req.url ~ " + req.http.X-Url + "[/]?(\?|&|$)");
+        error 200 "OK";
+    } else {
+        error 400 "Bad Request";
+    }
+}
+
