@@ -29,30 +29,7 @@ if (!defined('TYPO3_MODE')) {
 }
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
-        $_EXTKEY,
-        'Configuration/TypoScript',
-        'Varnishcache'
-);
-
-
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_varnishcache_domain_model_server');
-$languageFile = 'LLL:EXT:varnishcache/Resources/Private/Language/locallang_db.xlf';
-$GLOBALS['TCA']['tx_varnishcache_domain_model_server'] = array(
-        'ctrl' => array(
-                'title' => $languageFile . ':tx_varnishcache_domain_model_server.label',
-                'label' => 'ip',
-                'tstamp' => 'tstamp',
-                'crdate' => 'crdate',
-                'cruser_id' => 'cruser_id',
-                'dividers2tabs' => true,
-                'delete' => 'deleted',
-                'enablecolumns' => array(
-                        'disabled' => 'hidden',
-                        'starttime' => 'starttime',
-                        'endtime' => 'endtime',
-                ),
-                'searchFields' => 'title,',
-                'dynamicConfigFile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/Server.php',
-                'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/server.svg'
-        ),
+    $_EXTKEY,
+    'Configuration/TypoScript',
+    'Varnishcache'
 );
