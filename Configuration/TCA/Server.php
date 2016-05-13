@@ -14,6 +14,7 @@ $GLOBALS['TCA']['tx_varnishcache_domain_model_server'] = array(
                 'crdate' => 'crdate',
                 'cruser_id' => 'cruser_id',
                 'dividers2tabs' => true,
+                'rootLevel' => -1,
                 'delete' => 'deleted',
                 'enablecolumns' => array(
                     'disabled' => 'hidden',
@@ -139,5 +140,3 @@ $GLOBALS['TCA']['tx_varnishcache_domain_model_server'] = array(
                 )
         ),
 );
-
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_varnishcache_domain_model_server');

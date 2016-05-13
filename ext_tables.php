@@ -33,3 +33,5 @@ if (!defined('TYPO3_MODE')) {
     'Configuration/TypoScript',
     'Varnishcache'
 );
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_varnishcache_domain_model_server');
