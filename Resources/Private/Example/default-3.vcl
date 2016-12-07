@@ -5,6 +5,15 @@ sub vcl_recv {
         set req.grace = 24h;
     }
 
+    # Enable BAN 
+    if (req.request == "BAN") {
+	if (req.http.X-Host) {
+		ban("req.http.host == " + req.http.X-Host + " && req.url ~ " + req.http.X-Url + "[/]?(?|&|$)"); error 200 "OK";
+	} else {
+		error 400 "Bad Request";
+	}
+    }
+
     if (
         req.request != "GET" &&
         req.request != "HEAD" &&
@@ -49,16 +58,6 @@ sub vcl_recv {
     if (req.url ~ "\.mp4$"){
         return(pipe);
     }
-	
-	# Enable BAN 
-    if (req.request == "BAN") {
-		if (req.http.X-Host) {
-			ban("req.http.host == " + req.http.X-Host + " && req.url ~ " + req.http.X-Url + "[/]?(?|&|$)"); error 200 "OK";
-		} else {
-			error 400 "Bad Request";
-		}
-
-	}
 
     return(lookup);
 }
