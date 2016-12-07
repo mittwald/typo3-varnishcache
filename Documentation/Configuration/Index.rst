@@ -40,3 +40,9 @@ if (req.request == "BAN") {
     }
 }
 
+Example Varnish VCL config template
+--------------------------
+
+.. _Varnish 3 VCL: ../../Resources/Private/Example/default-3.vcl
+
+You need an example VCL configuration file for your Varnish? Feel free to take this one: `Varnish 3 VCL`_

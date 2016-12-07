@@ -4,7 +4,6 @@
 .. -*- coding: utf-8 -*- with BOM.
 
 .. include:: ../Includes.txt
-.. _Configuration Reference: ../Configuration/Index.rst 
 
 
 .. _admin-manual:
@@ -19,6 +18,9 @@ Target group: **Administrators**
 
 Installation
 ------------
+
+.. _Configuration Reference: ../Configuration/Index.rst 
+
 - Install "varnishcache" extension through extension manager
    - "Admin Tools" > "Extensions" > "Get Extensions" > "varnishcache"
 - Include "varnishcache" in static typo template 
