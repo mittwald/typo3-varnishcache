@@ -23,7 +23,7 @@ Installation
    - "Admin Tools" > "Extensions" > "Get Extensions" > "varnishcache"
 - Include "varnishcache" in static typo template 
    - "Template" > "Root-Template" > "Info/Modify" > "Edit the whole template reord" > "Includes" > "Include static (from extensions)" > "varnishcache"
-- Enable cURL via Install Tool
+- Enable cURL via "Install Tool"
    - "System" > "Install" > "All configuration" > "curlUse"
 - Make sure you have at least one domain record configured
    - "List" > "Create new record" > "System Records" > "Domain"
