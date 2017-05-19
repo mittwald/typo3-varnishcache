@@ -4,4 +4,5 @@ Additionally you can add Varnish Server Configuration to clear Varnish Cache for
 
 ## TYPO3 Compatibility
 * TYPO3 6.2 LTS
-* TYPO3 7
+* TYPO3 7.6 LTS
+* TYPO3 8.7 LTS
