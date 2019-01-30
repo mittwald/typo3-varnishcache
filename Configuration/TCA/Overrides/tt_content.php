@@ -42,12 +42,7 @@ $tempColumns = array(
                         'type' => 'group',
                         'internal_type' => 'db',
                         'allowed' => 'tt_content',
-                        'size' => 1,
-                        'wizards' => array(
-                                'suggest' => array(
-                                        'type' => 'suggest'
-                                ),
-                        ),
+                        'size' => 1
                 ),
         ),
 
