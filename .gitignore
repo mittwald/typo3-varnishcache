@@ -1,2 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea
+.Build/
+config/
+var/
+composer.lock
+phpdocker/
+docker-compose.yml
