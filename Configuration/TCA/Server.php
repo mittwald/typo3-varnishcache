@@ -33,7 +33,7 @@ $GLOBALS['TCA']['tx_varnishcache_domain_model_server'] = array(
                 ),
         ),
         'palettes' => array(
-                '1' => array('showitem' => 'ip, port, method, protocol, strip_slashes, domains'),
+                '1' => array('showitem' => 'ip, --linebreak--, port,--linebreak--, method,--linebreak--, protocol, --linebreak--,strip_slashes,--linebreak--, domains'),
         ),
         'columns' => array(
                 'hidden' => array(
