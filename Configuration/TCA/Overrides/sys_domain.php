@@ -8,6 +8,7 @@ $tempColumns = array(
                 'exclude' => 0,
                 'config' => array(
                         'type' => 'select',
+                        'renderType' => 'selectSingle',
                         'size' => 10,
                         'minitems' => 0,
                         'maxitems' => 99999,

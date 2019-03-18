@@ -28,12 +28,12 @@ $GLOBALS['TCA']['tx_varnishcache_domain_model_server'] = array(
                 'showRecordFieldList' => ' hidden, ip, port, method, protocol, strip_slashes, domains',
         ),
         'types' => array(
-                '1' => array(
-                        'showitem' => 'hidden;;1,ip, port, method, protocol, strip_slashes, domains'
+                '0' => array(
+                        'showitem' => 'hidden,--palette--;;1'
                 ),
         ),
         'palettes' => array(
-                '1' => array('showitem' => ''),
+                '1' => array('showitem' => 'ip, --linebreak--, port,--linebreak--, method,--linebreak--, protocol, --linebreak--,strip_slashes,--linebreak--, domains'),
         ),
         'columns' => array(
                 'hidden' => array(
@@ -45,15 +45,17 @@ $GLOBALS['TCA']['tx_varnishcache_domain_model_server'] = array(
                 ),
                 'starttime' => array(
                         'exclude' => 1,
-                        'l10n_mode' => 'mergeIfNotBlank',
                         'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.starttime',
                         'config' => array(
                                 'type' => 'input',
+                                'renderType' => 'inputDateTime',
                                 'size' => 13,
-                                'max' => 20,
                                 'eval' => 'datetime',
                                 'checkbox' => 0,
                                 'default' => 0,
+                                'behaviour'=> array(
+                                    'allowLanguageSynchronization' => true
+                                ),
                                 'range' => array(
                                         'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
                                 ),
@@ -61,15 +63,17 @@ $GLOBALS['TCA']['tx_varnishcache_domain_model_server'] = array(
                 ),
                 'endtime' => array(
                         'exclude' => 1,
-                        'l10n_mode' => 'mergeIfNotBlank',
                         'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.endtime',
                         'config' => array(
                                 'type' => 'input',
+                                'renderType' => 'inputDateTime',
                                 'size' => 13,
-                                'max' => 20,
                                 'eval' => 'datetime',
                                 'checkbox' => 0,
                                 'default' => 0,
+                                'behaviour'=> array(
+                                    'allowLanguageSynchronization' => true
+                                ),
                                 'range' => array(
                                         'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
                                 ),
