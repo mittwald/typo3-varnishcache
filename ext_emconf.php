@@ -37,9 +37,9 @@ $EM_CONF[$_EXTKEY] = array(
     'version' => '1.0-dev',
     'constraints' => array(
         'depends' => array(
-            'typo3' => '6.2.0-8.7.99',
-            'extbase' => '6.2.0-8.7.99',
-            'fluid' => '6.2.0-8.7.99',
+            'typo3' => '8.7.99-9.5.99',
+            'extbase' => '8.7.99-9.5.99',
+            'fluid' => '8.7.99-9.5.99',
         )
     ),
     'autoload' => array(
