@@ -14,6 +14,7 @@ deploy:
     secure: YAC7+cZtUElumLYV8SM9rui9Z0kBwPbMzy03J+SPlzFOJuTv9KeRKew22Xv5F+itapTC+ojB75mHXaEvRXxnKuFWsfSSlUTpeZvTmRI6W1eByYzG9KF6bX4fUcS/g4vXcjHdUlrodcoiA0+k7oBG9wvk0gcF6kJ/UD30DSzxTazztpTTWrAnj3sdwGArawYlDAlzruJJjYRSsIHU1QEu8Z/22Q93mUy5O35QSuSYxYKXHMhdVfakuB5u5+CUZdU9EXg9U6DVx/4dUPaV8DbC9sUu2LkjRGS6Lbsbhu2h2bwDfQwOUIznt5bjX7PkVlClVCxie280ZEoLGjor17umqqcK/4I7GG5sswGGEJyKLLm/SYOTyQe4gYm699ZPBi/8gauHN8+QzgSkOcDx+47PZ6GcucBsJC0PW4n9ICnRwOIPRMkzWm+gjY/rGNl/PRnMfkIAgNKDsW52MFK1QyTA+pAvAVgKwE2MBvYNSWfD/aFRH8vjXt34LAW1QIpNEkWTyeW48vKD6+qcQb09DpMA98ByvhwShvMQhl7k/WiT8e2Kx7hWjSi8OhMc+a0JgPS6yZUCxuc7C28XLxBqkWAerpnXT1LN42WL72551ECNtmySZAvEKVCBqi+SdoXhIsEbeqpHrDHE9mZe1MpTdKpi3FhB/WxYwzpUDCTaeBH86g4=
   file_glob: true
   file: varnishcache_*.zip
+  skip_cleanup: true
   on:
     repo: mittwald/typo3-varnishcache
     tags: true
