@@ -3,7 +3,6 @@
   "description": "Varnishcache TYPO3 Extension",
   "homepage": "http://www.mittwald.de",
   "license": "GPL-2",
-  "version": "1.0.2",
   "require": {
     "typo3/cms-core": "~6.2.14|>=7.4.0,<8.0"
   },
@@ -16,35 +15,6 @@
   "autoload": {
     "psr-4": {
       "Mittwald\\Varnishcache\\": "Classes/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Mittwald\\Varnishcache\\Tests\\": "Tests",
-      "TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests/",
-      "TYPO3\\CMS\\Fluid\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/fluid/Tests/"
-    }
-  },
-  "replace": {
-    "varnishcache": "self.version"
-  },
-  "config": {
-    "vendor-dir": ".Build/vendor",
-    "bin-dir": ".Build/bin"
-  },
-  "scripts": {
-    "post-autoload-dump": [
-      "mkdir -p .Build/Web/typo3conf/ext/",
-      "[ -L .Build/Web/typo3conf/ext/varnishcache ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/varnishcache"
-    ]
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.0.x-dev"
-    },
-    "typo3/cms": {
-      "cms-package-dir": "{$vendor-dir}/typo3/cms",
-      "web-dir": ".Build/Web"
     }
   }
 }
