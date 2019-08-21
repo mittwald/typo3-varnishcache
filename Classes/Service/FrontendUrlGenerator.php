@@ -46,15 +46,22 @@ class FrontendUrlGenerator {
      * @return string
      */
     public function getFrontendUrl($uid) {
-        $this->initFrontend($uid);
 
-        if ($this->isRootPage($uid)) {
-            return '/';
+        $page = BackendUtility::getRecord('pages', $uid, $fields = 'doktype');
+
+        if ($uid === 0 || (isset($page) && is_array($page) && isset($page['doktype']) && ($page['doktype'] == \TYPO3\CMS\Frontend\Page\PageRepository::DOKTYPE_DEFAULT || $page['doktype'] == \TYPO3\CMS\Frontend\Page\PageRepository::DOKTYPE_SHORTCUT))) {
+            $this->initFrontend($uid);
+
+            if ($this->isRootPage($uid)) {
+                return '/';
+            }
+
+            return $this->contentObjectRenderer->typoLink_URL(array(
+                'parameter' => $uid,
+            ));
         }
 
-        return $this->contentObjectRenderer->typoLink_URL(array(
-                'parameter' => $uid,
-        ));
+        return FALSE;
     }
 
     /**

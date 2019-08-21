@@ -57,6 +57,10 @@ class VarnishCacheService {
 
         $url = $this->frontendUrlGenerator->getFrontendUrl($currentPageId);
 
+        if ($url === FALSE) {
+            return FALSE;
+        }
+
         if ($currentPageId > 0) {
             $domains = $this->domainRepository->findByRootLine(BackendUtility::BEgetRootLine($currentPageId));
         } else {
