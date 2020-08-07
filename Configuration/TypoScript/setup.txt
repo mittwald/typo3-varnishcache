@@ -30,17 +30,3 @@ varnish {
 	10.includeLibs = EXT:varnishcache/Classes/Renderer/ContentElement.php
 }
 
-# Map entity to sys_domain table
-config.tx_extbase.persistence.classes {
-	Mittwald\Varnishcache\Domain\Model\SysDomain {
-		mapping {
-			tableName = sys_domain
-			columns {
-				domainName.mapOnProperty = domainName
-				redirectTo.mapOnProperty = redirectTo
-				redirectHttpStatusCode.mapOnProperty = redirectHttpStatusCode
-			}
-		}
-	}
-}
-

@@ -25,7 +25,8 @@ CREATE TABLE tx_varnishcache_domain_model_server (
 	KEY parent (pid)
 );
 
-CREATE TABLE sys_domain (
+CREATE TABLE tx_varnishcache_domain_model_sysdomain (
+    domain_name varchar(255) DEFAULT '' NOT NULL,
 	servers int(11) DEFAULT '0' NOT NULL,
 );
 

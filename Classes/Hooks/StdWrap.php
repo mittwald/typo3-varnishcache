@@ -23,7 +23,8 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
  * Class StdWrap
  * @package Mittwald\Varnishcache\Hooks
  */
-class StdWrap extends AbstractHook {
+class StdWrap extends AbstractHook
+{
 
     /**
      * @var ContentObjectRenderer
@@ -36,27 +37,32 @@ class StdWrap extends AbstractHook {
      */
     protected $esiTagService;
 
+    /**
+     * StdWrap constructor.
+     * @param EsiTagService $esiTagService
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->esiTagService = $this->objectManager->get(EsiTagService::class);
+    }
+
 
     /**
      * @param string $content
      * @param array $params
      * @return string
      */
-    public function addEsiTags($content, $params) {
+    public function addEsiTags($content, $params)
+    {
         return $this->getEsiTagService()->render($content, $this->cObj);
     }
 
     /**
      * @return EsiTagService
      */
-    public function getEsiTagService() {
-        if (is_null($this->esiTagService)) {
-            try {
-                $this->esiTagService = $this->objectManager->get('Mittwald\\Varnishcache\\Service\\EsiTagService');
-            } catch (\Exception $e) {
-                echo 'EsiTagService could not be initialised: ' . $e->getCode() . $e->getMessage();
-            }
-        }
+    public function getEsiTagService(): EsiTagService
+    {
         return $this->esiTagService;
     }
 

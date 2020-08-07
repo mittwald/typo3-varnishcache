@@ -31,30 +31,37 @@ use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Frontend\ContentObject\AbstractContentObject;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 
 /**
  * Class ContentObjectArrayInternalContentObject
  * @package Mittwald\Varnishcache\Frontend\ContentObject
  */
-class ContentObjectArrayInternalContentObject extends \TYPO3\CMS\Frontend\ContentObject\ContentObjectArrayInternalContentObject {
+class ContentObjectArrayInternalContentObject extends \TYPO3\CMS\Frontend\ContentObject\ContentObjectArrayInternalContentObject
+{
 
     /**
      * @var \Mittwald\Varnishcache\Service\EsiTagService
-     * @inject
      */
     protected $esiTagService;
 
+    public function __construct(ContentObjectRenderer $cObj, EsiTagService $esiTagService)
+    {
+        parent::__construct($cObj);
+        $this->esiTagService = $esiTagService;
+    }
 
     /**
      * @param array $conf
      * @return string
      */
-    public function render($conf = array()) {
+    public function render($conf = array()): string
+    {
         $content = parent::render($conf);
 
-        if (!($formVarnish = GeneralUtility::_GET('varnish'))) {
-            $content = $this->getEsiTagService()->render($content, $this->getContentObject());
+        if (! ($formVarnish = GeneralUtility::_GET('varnish'))) {
+            $content = $this->getEsiTagService()->render($content, $this->getContentObjectRenderer());
         }
 
         return $content;
@@ -63,19 +70,8 @@ class ContentObjectArrayInternalContentObject extends \TYPO3\CMS\Frontend\Conten
     /**
      * @return EsiTagService
      */
-    protected function getEsiTagService() {
-        if (is_null($this->esiTagService)) {
-            $this->esiTagService = $this->getObjectManager()->get('Mittwald\\Varnishcache\\Service\\EsiTagService');
-        }
+    protected function getEsiTagService(): EsiTagService
+    {
         return $this->esiTagService;
     }
-
-    /**
-     * @return ObjectManager
-     */
-    protected function getObjectManager() {
-        return GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-    }
-
-
 }

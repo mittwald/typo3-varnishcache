@@ -24,21 +24,20 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-if (!defined('TYPO3_MODE')) {
+if (! defined('TYPO3_MODE')) {
     die ('Access denied.');
 }
 
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectArrayInternalContentObject'] = array(
-        'className' => 'Mittwald\\Varnishcache\\Frontend\\ContentObject\\ContentObjectArrayInternalContentObject'
-);
+(static function () {
+    $GLOBALS['TYPO3_CONF_VARS']['FE']['ContentObjects']['COA_INT'] = \Mittwald\Varnishcache\Frontend\ContentObject\ContentObjectArrayInternalContentObject::class;
 
-
-if (TYPO3_MODE === 'BE') {
-    // On save page
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] =
+    if (TYPO3_MODE === 'BE') {
+        // On save page
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearCachePostProc'][] =
             'Mittwald\Varnishcache\Hooks\Cache->clearCachePostProc';
 
-    // On flush cache
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearPageCacheEval'][] =
+        // On flush cache
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['clearPageCacheEval'][] =
             'Mittwald\Varnishcache\Hooks\Cache->clearCachePostProc';
-}
+    }
+})();
