@@ -10,7 +10,7 @@ plugin.Mittwald\Varnishcache\Hooks\StdWrap.includeLibs = EXT:varnishcache/Classe
 tt_content.stdWrap.postUserFunc = Mittwald\Varnishcache\Hooks\StdWrap->addEsiTags
 tt_content.stdWrap.postUserFunc.includeLibs = EXT:varnishcache/Classes/Hooks/StdWrap.php
 
-[globalVar = GP:type = {$plugin.varnishcache.settings.typeNum}]
+[request.getQueryParams()['type'] == {$plugin.varnishcache.settings.typeNum}]
 	tt_content.stdWrap.postUserFunc >
 [global]
 

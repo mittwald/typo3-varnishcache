@@ -45,10 +45,6 @@ class VarnishCacheService
     protected $frontendUrlGenerator;
 
     /**
-     * @var SysDomainRepository
-     */
-    protected $domainRepository;
-    /**
      * @var ServerRepository
      */
     private $serverRepository;
@@ -56,16 +52,13 @@ class VarnishCacheService
     /**
      * VarnishCacheService constructor.
      * @param FrontendUrlGenerator $frontendUrlGenerator
-     * @param SysDomainRepository $domainRepository
      * @param ServerRepository $serverRepository
      */
     public function __construct(
         FrontendUrlGenerator $frontendUrlGenerator,
-        SysDomainRepository $domainRepository,
         ServerRepository $serverRepository
     ) {
         $this->frontendUrlGenerator = $frontendUrlGenerator;
-        $this->domainRepository = $domainRepository;
         $this->serverRepository = $serverRepository;
     }
 
@@ -80,16 +73,23 @@ class VarnishCacheService
      */
     public function flushCache($currentPageId): bool
     {
-        $domains = $this->domainRepository->findAll();
-        $url = $this->frontendUrlGenerator->getFrontendUrl($currentPageId);
-        $varnishFlushed = false;
+        $servers = $this->serverRepository->findAll();
+        $varnishFlushed = true;
 
-        if ($domains) {
-            foreach ($domains as $domain) {
-                if ($domain->getDomainName() === $this->frontendUrlGenerator->getSite($currentPageId)->getBase()) {
-                    foreach ($domain->getServers() as $server) {
-                        $this->request($domain, $server, $url);
-                        $varnishFlushed = true;
+        if ($servers) {
+            $url = $this->frontendUrlGenerator->getFrontendUrl($currentPageId);
+            foreach ($servers as $server) {
+                if (($domains = $server->getDomains())) {
+                    foreach ($domains as $domain) {
+                        $currentBaseUri = (string)$this->frontendUrlGenerator->getSite($currentPageId)->getBase();
+                        $configuredBaseUri = $domain->getDomainName();
+                        if (preg_match('/' . $configuredBaseUri . '/', $currentBaseUri)) {
+                            try {
+                                $this->request($domain, $server, $url);
+                            } catch (\Throwable $exception) {
+                                $varnishFlushed = false;
+                            }
+                        }
                     }
                 }
             }
