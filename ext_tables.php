@@ -36,4 +36,5 @@ if (! defined('TYPO3_MODE')) {
     );
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_varnishcache_domain_model_server');
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages('tx_varnishcache_domain_model_sysdomain');
 })('varnishcache');
