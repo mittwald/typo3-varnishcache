@@ -28,7 +28,7 @@
     }
   },
   "replace": {
-    "varnishcache": "self.version"
+    "typo3-ter/varnishcache": "self.version"
   },
   "config": {
     "vendor-dir": ".Build/vendor",
