@@ -27,6 +27,7 @@ namespace Mittwald\Varnishcache\Service;
 
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Http\ImmediateResponseException;
 use TYPO3\CMS\Core\TimeTracker\TimeTracker;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -46,7 +47,12 @@ class FrontendUrlGenerator {
      * @return string
      */
     public function getFrontendUrl($uid) {
-        $this->initFrontend($uid);
+        try {
+            $this->initFrontend($uid);
+        } catch (ImmediateResponseException $exception) {
+            // Page is not accessible
+            return '/';
+        }
 
         if ($this->isRootPage($uid)) {
             return '/';
