@@ -16,11 +16,6 @@ fi
 
 set -e
 
-pushd Resources/Private/Libraries
-composer install --no-dev
-
-popd
-
 sed -i -e "s,[0-9]\.[0-9]-dev,${VERSION},g" ext_emconf.php
 zip -9 -r \
     varnishcache_${VERSION}.zip \
