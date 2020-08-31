@@ -28,13 +28,14 @@
     }
   },
   "replace": {
-    "varnishcache": "self.version"
+    "typo3-ter/varnishcache": "self.version"
   },
   "config": {
     "vendor-dir": ".Build/vendor",
     "bin-dir": ".Build/bin"
   },
   "scripts": {
+    "extension-package": ["bash Build/package-version.sh"],
     "post-autoload-dump": [
       "mkdir -p .Build/Web/typo3conf/ext/",
       "[ -L .Build/Web/typo3conf/ext/varnishcache ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/varnishcache"
