@@ -29,21 +29,24 @@ namespace Mittwald\Varnishcache\Domain\Repository;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
-abstract class AbstractDisrespectStoragePageRepository extends Repository {
+abstract class AbstractDisrespectStoragePageRepository extends Repository
+{
 
     /**
      * Reset query settings
      */
-    public function initializeObject() {
+    public function initializeObject(): void
+    {
         $querySettings = $this->getQuerySettingsObject();
-        $querySettings->setRespectStoragePage(FALSE);
+        $querySettings->setRespectStoragePage(false);
         $this->setDefaultQuerySettings($querySettings);
     }
 
     /**
      * @return Typo3QuerySettings
      */
-    protected function getQuerySettingsObject() {
-        return $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
+    protected function getQuerySettingsObject(): Typo3QuerySettings
+    {
+        return $this->objectManager->get(Typo3QuerySettings::class);
     }
 }

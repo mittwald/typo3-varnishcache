@@ -32,9 +32,10 @@ class ContentElement {
         if (($identifier = GeneralUtility::_GET('identifier')) && ($key = GeneralUtility::_GET('key'))) {
             if ($row = $this->getCacheManager()->get($identifier)) {
                 /* @var $INTiS_cObj ContentObjectRenderer */
+                $key = 'INT_SCRIPT.' . $key;
                 $INTiS_cObj = unserialize($row['cache_data']['INTincScript'][$key]['cObj']);
                 $INTiS_cObj->INT_include = 1;
-                return $INTiS_cObj->cObjGetSingle($row['cache_data']['INTincScript'][$key]['type'] . '_INT', $row['cache_data']['INTincScript'][$key]['conf']);
+                return $INTiS_cObj->cObjGetSingle('USER_INT', $row['cache_data']['INTincScript'][$key]['conf']);
             }
         }
 

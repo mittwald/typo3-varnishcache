@@ -26,9 +26,15 @@
 namespace Mittwald\Varnishcache\Domain\Repository;
 
 
+use Mittwald\Varnishcache\Domain\Model\Server;
 use TYPO3\CMS\Extbase\Persistence\Generic\Query;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
+/**
+ * Class ServerRepository
+ * @package Mittwald\Varnishcache\Domain\Repository
+ * @method Server[] findAll()
+ */
 class ServerRepository extends AbstractDisrespectStoragePageRepository {
 
 

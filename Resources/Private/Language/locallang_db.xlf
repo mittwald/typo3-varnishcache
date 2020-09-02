@@ -31,6 +31,14 @@
             <trans-unit id="tx_varnishcache_domain_model_server.strip_slashes">
                 <source>Remove trailing slash in current url?</source>
             </trans-unit>
+
+            <trans-unit id="tx_varnishcache_domain_model_sysdomain.label">
+                <source>Varnish controlled domains</source>
+            </trans-unit>
+
+            <trans-unit id="tx_varnishcache_domain_model_sysdomain.domain_name">
+                <source>Domain</source>
+            </trans-unit>
         </body>
     </file>
 </xliff>

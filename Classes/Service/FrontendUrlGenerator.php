@@ -27,72 +27,78 @@ namespace Mittwald\Varnishcache\Service;
 
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Routing\PageRouter;
+use TYPO3\CMS\Core\Routing\SiteRouteResult;
+use TYPO3\CMS\Core\Routing\UrlGenerator;
+use TYPO3\CMS\Core\Site\Entity\Site;
+use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\TimeTracker\TimeTracker;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-class FrontendUrlGenerator {
+class FrontendUrlGenerator
+{
+    /**
+     * @var PageRouter
+     */
+    protected $pageRouter;
+    /**
+     * @var SiteFinder
+     */
+    private $siteFinder;
+    /**
+     * @var UrlGenerator
+     */
+    private $urlGenerator;
+    /**
+     * @var UriBuilder
+     */
+    private $uriBuilder;
 
     /**
-     * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
-     * @inject
+     * FrontendUrlGenerator constructor.
+     * @param PageRouter $pageRouter
      */
-    protected $contentObjectRenderer;
-
+    public function __construct(SiteFinder $siteFinder, UriBuilder $uriBuilder)
+    {
+        $this->siteFinder = $siteFinder;
+    }
 
     /**
      * @param $uid
      * @return string
      */
-    public function getFrontendUrl($uid) {
-        $this->initFrontend($uid);
-
+    public function getFrontendUrl($uid): string
+    {
         if ($this->isRootPage($uid)) {
             return '/';
         }
+        $site = $this->getSite($uid);
+        return (string)$site->getRouter()->generateUri($uid);
+    }
 
-        return $this->contentObjectRenderer->typoLink_URL(array(
-                'parameter' => $uid,
-        ));
+    /**
+     * @param $uid
+     * @return Site
+     * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
+     */
+    public function getSite($uid): Site
+    {
+        return $this->siteFinder->getSiteByPageId($uid);
     }
 
     /**
      * @param $uid
      * @return bool
      */
-    protected function isRootPage($uid) {
+    protected function isRootPage($uid): bool
+    {
         $rootline = BackendUtility::BEgetRootLine($uid);
         if (is_array($rootline) && count($rootline) > 1) {
             return ($uid == $rootline[1]['uid']);
         }
-        return FALSE;
-    }
-
-    /**
-     * @param $uid
-     */
-    protected function initFrontend($uid) {
-        if (!is_object($GLOBALS['TT'])) {
-            $GLOBALS['TT'] = new TimeTracker();
-            $GLOBALS['TT']->start();
-        }
-        $GLOBALS['TSFE'] = GeneralUtility::makeInstance(
-                'TYPO3\\CMS\\Frontend\\Controller\\TypoScriptFrontendController',
-                $GLOBALS['TYPO3_CONF_VARS'],
-                $uid,
-                0
-        );
-        $GLOBALS['TSFE']->connectToDB();
-        $GLOBALS['TSFE']->initFEuser();
-        $GLOBALS['TSFE']->determineId();
-        $GLOBALS['TSFE']->initTemplate();
-        $GLOBALS['TSFE']->getConfigArray();
-
-        if (ExtensionManagementUtility::isLoaded('realurl')) {
-            $rootline = BackendUtility::BEgetRootLine($uid);
-            $host = BackendUtility::firstDomainRecord($rootline);
-            $_SERVER['HTTP_HOST'] = $host;
-        }
+        return false;
     }
 }

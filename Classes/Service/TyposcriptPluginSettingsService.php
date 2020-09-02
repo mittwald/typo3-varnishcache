@@ -14,25 +14,35 @@ namespace Mittwald\Varnishcache\Service;
 
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 
-class TyposcriptPluginSettingsService {
+class TyposcriptPluginSettingsService
+{
 
     /**
-     * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManager
-     * @inject
+     * @var ConfigurationManager
      */
     protected $configurationManager;
+
 
     /**
      * @var array
      */
     protected $configuration = array();
 
+    /**
+     * TyposcriptPluginSettingsService constructor.
+     * @param ConfigurationManager $configurationManager
+     */
+    public function __construct(ConfigurationManager $configurationManager)
+    {
+        $this->configurationManager = $configurationManager;
+    }
+
 
     /**
      * @return array
      */
-    public function getConfiguration() {
-
+    public function getConfiguration(): array
+    {
         if (empty($this->configuration)) {
             $fullConfig = $this->configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
             $this->configuration = $fullConfig['plugin.']['varnishcache.']['settings.'];

@@ -28,7 +28,8 @@ namespace Mittwald\Varnishcache\Service;
 
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-class EsiTagService {
+class EsiTagService
+{
 
     /**
      * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
@@ -37,55 +38,72 @@ class EsiTagService {
 
     /**
      * @var \Mittwald\Varnishcache\Service\TyposcriptPluginSettingsService
-     * @inject
      */
     protected $typoscriptPluginSettingsService;
 
     /**
      * @var \Mittwald\Varnishcache\Service\TsConfigService
-     * @inject
      */
     protected $tsConfigService;
+
+    /**
+     * EsiTagService constructor.
+     * @param ContentObjectRenderer $contentObjectRenderer
+     * @param TyposcriptPluginSettingsService $typoscriptPluginSettingsService
+     * @param TsConfigService $tsConfigService
+     */
+    public function __construct(
+        ContentObjectRenderer $contentObjectRenderer,
+        TyposcriptPluginSettingsService $typoscriptPluginSettingsService,
+        TsConfigService $tsConfigService
+    ) {
+        $this->contentObjectRenderer = $contentObjectRenderer;
+        $this->typoscriptPluginSettingsService = $typoscriptPluginSettingsService;
+        $this->tsConfigService = $tsConfigService;
+    }
+
 
     /**
      * @param $content
      * @param ContentObjectRenderer $contentObjectRenderer
      * @return string
      */
-    public function render($content, ContentObjectRenderer $contentObjectRenderer) {
+    public function render($content, ContentObjectRenderer $contentObjectRenderer)
+    {
 
         $this->contentObjectRenderer = $contentObjectRenderer;
         $typoScriptConfig = $this->typoscriptPluginSettingsService->getConfiguration();
 
         if ($this->isIntObject($content)) {
             $link = $this->contentObjectRenderer->typoLink_URL(array(
-                    'parameter' => $GLOBALS['TSFE']->id,
-                    'forceAbsoluteUrl' => 1,
-                    'additionalParams' => '&type=' . $typoScriptConfig['typeNum']
-                            . '&identifier=' . $GLOBALS['TSFE']->newHash
-                            . '&key=' . $this->getKey($content)
-                            . '&varnish=1',
+                'parameter' => $GLOBALS['TSFE']->id,
+                'forceAbsoluteUrl' => 1,
+                'additionalParams' => '&type=' . $typoScriptConfig['typeNum']
+                    . '&identifier=' . $GLOBALS['TSFE']->newHash
+                    . '&key=' . $this->getKey($content)
+                    . '&varnish=1',
 
             ));
             $content = $this->wrapEsiTag($link);
         } elseif ($this->contentObjectRenderer->data['exclude_from_cache'] && $GLOBALS['TSFE']->type != $typoScriptConfig['typeNum']) {
             $link = $this->contentObjectRenderer->typoLink_URL(array(
-                    'parameter' => $GLOBALS['TSFE']->id,
-                    'forceAbsoluteUrl' => 1,
-                    'additionalParams' => '&element=' . $this->contentObjectRenderer->data['uid']
-                            . '&type=' . $typoScriptConfig['typeNum']
-                            . '&varnish=1',
+                'parameter' => $GLOBALS['TSFE']->id,
+                'forceAbsoluteUrl' => 1,
+                'additionalParams' => '&element=' . $this->contentObjectRenderer->data['uid']
+                    . '&type=' . $typoScriptConfig['typeNum']
+                    . '&varnish=1',
 
             ));
             $content = $this->wrapEsiTag($link);
 
             if (($cUid = $this->contentObjectRenderer->data['alternative_content'])) {
                 $cConf = array(
-                        'tables' => 'tt_content',
-                        'source' => $cUid,
-                        'dontCheckPid' => 1,
+                    'tables' => 'tt_content',
+                    'source' => $cUid,
+                    'dontCheckPid' => 1,
                 );
-                $content .= '<esi:remove>' . $this->contentObjectRenderer->cObjGetSingle('RECORDS', $cConf) . '</esi:remove>';
+                $content .= '<esi:remove>' . $this->contentObjectRenderer->cObjGetSingle('RECORDS',
+                        $cConf) . '</esi:remove>';
             }
         }
 
@@ -96,15 +114,21 @@ class EsiTagService {
      * @param $content
      * @return string
      */
-    protected function getKey($content) {
-        return $substKey = str_replace(array('<!--', '-->'), '', $content);
+    protected function getKey($content): string
+    {
+        $content = str_replace(array('<!--', '-->'), '', $content);
+        $matches =[];
+        preg_match('/INT_SCRIPT\.(.*)/', $content, $matches);
+
+        return $matches[1];
     }
 
     /**
      * @param $content
      * @return string
      */
-    protected function wrapEsiTag($content) {
+    protected function wrapEsiTag($content): string
+    {
         return '<!--esi <esi:include src="' . $content . '" />-->';
     }
 
@@ -112,8 +136,8 @@ class EsiTagService {
      * @param $content
      * @return bool
      */
-    protected function isIntObject($content) {
-        return (boolean)preg_match('/INT_SCRIPT/', $content);
+    protected function isIntObject($content): bool
+    {
+        return (false !== strpos($content, "INT_SCRIPT"));
     }
-
 }
