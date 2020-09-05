@@ -27,6 +27,8 @@ namespace Mittwald\Varnishcache\Hooks;
 
 use Mittwald\Varnishcache\Service\VarnishCacheService;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 /**
@@ -66,6 +68,9 @@ class Cache extends AbstractHook {
             foreach ($params['pageIdArray'] as $pageId) {
                 $this->getVarnishCacheService()->flushCache($pageId);
             }
+
+            $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+            $pageRenderer->setBackPath(NULL);
             return;
         }
 
