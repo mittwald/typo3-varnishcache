@@ -124,7 +124,7 @@ return (static function () {
                     'eval' => 'trim'
                 ],
             ],
-            'strip_slahes' => [
+            'strip_slashes' => [
                 'label' => $languageFile . 'tx_varnishcache_domain_model_server.strip_slashes',
                 'config' => [
                     'type' => 'check',
