@@ -1,30 +1,17 @@
 {
   "name": "mittwald/varnishcache",
   "description": "Varnishcache TYPO3 Extension",
-  "homepage": "http://www.mittwald.de",
-  "license": "GPL-2",
-  "version": "1.0-dev",
+  "homepage": "https://www.mittwald.de",
+  "license": [
+    "GPL-2.0-or-later"
+  ],
   "require": {
-    "typo3/cms-core": "^10.4"
-  },
-  "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2.0",
-    "nimut/testing-framework": "^1.0 || ^2.0 || ^3.0 || ^4.0",
-    "helhum/typo3-console": "^5.6",
-    "typo3/cms-tstemplate": "^9.5",
-    "typo3/cms-recordlist": "^9.5"
+    "typo3/cms-core": "^11.5"
   },
   "type": "typo3-cms-extension",
   "autoload": {
     "psr-4": {
       "Mittwald\\Varnishcache\\": "Classes/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Mittwald\\Varnishcache\\Tests\\": "Tests",
-      "TYPO3\\CMS\\Core\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/core/Tests/",
-      "TYPO3\\CMS\\Fluid\\Tests\\": ".Build/vendor/typo3/cms/typo3/sysext/fluid/Tests/"
     }
   },
   "replace": {
@@ -37,17 +24,15 @@
   "scripts": {
     "extension-package": ["bash Build/package-version.sh"],
     "post-autoload-dump": [
-      "mkdir -p .Build/Web/typo3conf/ext/",
-      "[ -L .Build/Web/typo3conf/ext/varnishcache ] || ln -snvf ../../../../. .Build/Web/typo3conf/ext/varnishcache"
+      "mkdir -p .Build/public/typo3conf/ext/",
+      "[ -L .Build/public/typo3conf/ext/varnishcache ] || ln -snvf ../../../../. .Build/public/typo3conf/ext/varnishcache"
     ]
   },
   "extra": {
-    "branch-alias": {
-      "dev-master": "6.x-dev"
-    },
     "typo3/cms": {
+      "extension-key": "varnishcache",
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
-      "web-dir": ".Build/Web"
+      "web-dir": ".Build/public"
     }
   }
 }
