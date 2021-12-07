@@ -1,8 +1,9 @@
 <?php
-/* * *************************************************************
+
+/****************************************************************
  *  Copyright notice
  *
- *  (C) 2015 Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
+ *  (C) Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
  *
  *  All rights reserved
  *
@@ -21,32 +22,23 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+ ***************************************************************/
 
 namespace Mittwald\Varnishcache\Domain\Repository;
 
-
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 abstract class AbstractDisrespectStoragePageRepository extends Repository
 {
-
     /**
      * Reset query settings
      */
     public function initializeObject(): void
     {
-        $querySettings = $this->getQuerySettingsObject();
+        $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false);
         $this->setDefaultQuerySettings($querySettings);
-    }
-
-    /**
-     * @return Typo3QuerySettings
-     */
-    protected function getQuerySettingsObject(): Typo3QuerySettings
-    {
-        return $this->objectManager->get(Typo3QuerySettings::class);
     }
 }

@@ -1,9 +1,6 @@
 <?php
 
-if (! defined('TYPO3_MODE')) {
-    die('Access denied.');
-}
-
+defined('TYPO3') or die();
 
 return (static function () {
     $languageFile = 'LLL:EXT:varnishcache/Resources/Private/Language/locallang_db.xlf:';
@@ -16,7 +13,6 @@ return (static function () {
             'tstamp' => 'tstamp',
             'crdate' => 'crdate',
             'cruser_id' => 'cruser_id',
-            'dividers2tabs' => true,
             'rootLevel' => -1,
             'delete' => 'deleted',
             'enablecolumns' => [
@@ -25,16 +21,20 @@ return (static function () {
                 'endtime' => 'endtime',
             ],
             'searchFields' => 'title,',
-            'iconfile' => 'EXT:varnishcache/Resources/Public/Icons/server.svg'
+            'typeicon_classes' => [
+                'default' => 'ext-varnishcache-server',
+            ],
         ],
         'types' => [
             '0' => [
-                'showitem' => '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, --palette--;;general,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, --palette--;;hidden, --palette--;;access,'
+                'showitem' => '
+                    ip, port, method, protocol, strip_slashes, domains,
+                    --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access,
+                        hidden, --palette--;;startstop',
             ],
         ],
         'palettes' => [
-            'general' => ['showitem' => 'ip, --linebreak--, port,--linebreak--, method,--linebreak--, protocol, --linebreak--,strip_slashes, domains'],
-            'access' => ['showitem' => 'hidden, --linebreak--, starttime, endtime'],
+            'startstop' => ['showitem' => 'starttime, endtime'],
         ],
         'columns' => [
             'hidden' => [
@@ -42,6 +42,14 @@ return (static function () {
                 'label' => $generalLanguageFile . 'LGL.hidden',
                 'config' => [
                     'type' => 'check',
+                    'renderType' => 'checkboxToggle',
+                    'default' => 0,
+                    'items' => [
+                        [
+                            0 => '',
+                            1 => '',
+                        ],
+                    ],
                 ],
             ],
             'starttime' => [
@@ -54,11 +62,8 @@ return (static function () {
                     'eval' => 'datetime',
                     'checkbox' => 0,
                     'default' => 0,
-                    'behaviour' => [
-                        'allowLanguageSynchronization' => true
-                    ],
                     'range' => [
-                        'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
+                        'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y')),
                     ],
                 ],
             ],
@@ -72,11 +77,8 @@ return (static function () {
                     'eval' => 'datetime',
                     'checkbox' => 0,
                     'default' => 0,
-                    'behaviour' => [
-                        'allowLanguageSynchronization' => true
-                    ],
                     'range' => [
-                        'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
+                        'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y')),
                     ],
                 ],
             ],
@@ -86,7 +88,7 @@ return (static function () {
                 'config' => [
                     'type' => 'input',
                     'size' => 255,
-                    'eval' => 'trim, required'
+                    'eval' => 'trim, required',
                 ],
             ],
             'port' => [
@@ -96,7 +98,7 @@ return (static function () {
                     'type' => 'input',
                     'size' => 30,
                     'default' => 80,
-                    'eval' => 'trim,int'
+                    'eval' => 'trim,int',
                 ],
             ],
             'method' => [
@@ -106,7 +108,7 @@ return (static function () {
                     'type' => 'input',
                     'size' => 30,
                     'default' => 'BAN',
-                    'eval' => 'trim, required'
+                    'eval' => 'trim, required',
                 ],
             ],
             'protocol' => [
@@ -119,16 +121,25 @@ return (static function () {
                     'minitems' => 1,
                     'items' => [
                         ['HTTP 1.0', '1'],
-                        ['HTTP 1.1', '2']
+                        ['HTTP 1.1', '2'],
                     ],
-                    'eval' => 'trim'
+                    'eval' => 'trim',
                 ],
             ],
             'strip_slashes' => [
                 'label' => $languageFile . 'tx_varnishcache_domain_model_server.strip_slashes',
                 'config' => [
                     'type' => 'check',
-                ]
+                    'renderType' => 'checkboxToggle',
+                    'default' => 0,
+                    'items' => [
+                        [
+                            0 => '',
+                            1 => '',
+                        ],
+                    ],
+
+                ],
             ],
             'domains' => [
                 'label' => $languageFile . 'tx_varnishcache_domain_model_server.domains',
@@ -141,9 +152,8 @@ return (static function () {
                     'size' => 10,
                     'minitems' => 1,
                     'maxitems' => 99999,
-                ]
-            ]
+                ],
+            ],
         ],
     ];
 })();
-

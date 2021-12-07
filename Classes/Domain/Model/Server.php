@@ -1,8 +1,9 @@
 <?php
-/* * *************************************************************
+
+/****************************************************************
  *  Copyright notice
  *
- *  (C) 2015 Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
+ *  (C) Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
  *
  *  All rights reserved
  *
@@ -21,161 +22,114 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+ ***************************************************************/
 
 namespace Mittwald\Varnishcache\Domain\Model;
 
-
-use Mittwald\Varnishcache\Domain\Model\SysDomain;
 use TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
-class Server extends AbstractDomainObject {
-
-
-    /**
-     * @var string
-     */
-    protected $ip;
-
-    /**
-     * @var integer
-     */
-    protected $port;
+class Server extends AbstractDomainObject
+{
+    protected string $ip = '';
+    protected int $port = 0;
+    protected string $method = '';
+    protected string $protocol = '';
+    protected bool $stripSlashes = false;
 
     /**
-     * @var string
+     * @var ObjectStorage<SysDomain>
      */
-    protected $method;
+    protected ObjectStorage $domains;
 
-    /**
-     * @var string
-     */
-    protected $protocol;
+    public function __construct()
+    {
+        $this->initializeObject();
+    }
 
-    /**
-     * @var boolean
-     */
-    protected $stripSlashes;
-
-    /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Mittwald\Varnishcache\Domain\Model\SysDomain>
-     */
-    protected $domains;
-
-    /**
-     * VarnishServer constructor.
-     */
-    public function __construct() {
+    public function initializeObject()
+    {
         $this->domains = new ObjectStorage();
     }
 
-    /**
-     * @return string
-     */
-    public function getIp() {
+    public function getIp(): string
+    {
         return $this->ip;
     }
 
-    /**
-     * @param string $ip
-     */
-    public function setIp($ip) {
+    public function setIp(string $ip): void
+    {
         $this->ip = $ip;
     }
 
-    /**
-     * @return int
-     */
-    public function getPort() {
+    public function getPort(): int
+    {
         return $this->port;
     }
 
-    /**
-     * @param int $port
-     */
-    public function setPort($port) {
+    public function setPort(int $port): void
+    {
         $this->port = $port;
     }
 
-    /**
-     * @return string
-     */
-    public function getMethod() {
+    public function getMethod(): string
+    {
         return $this->method;
     }
 
-    /**
-     * @param string $method
-     */
-    public function setMethod($method) {
+    public function setMethod(string $method): void
+    {
         $this->method = $method;
     }
 
-    /**
-     * @return string
-     */
-    public function getProtocol() {
+    public function getProtocol(): string
+    {
         return $this->protocol;
     }
 
-    /**
-     * @param string $protocol
-     */
-    public function setProtocol($protocol) {
+    public function setProtocol(string $protocol): void
+    {
         $this->protocol = $protocol;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isStripSlashes() {
+    public function isStripSlashes(): bool
+    {
         return $this->stripSlashes;
     }
 
-    /**
-     * @param boolean $stripSlashes
-     */
-    public function setStripSlashes($stripSlashes) {
+    public function setStripSlashes(bool $stripSlashes): void
+    {
         $this->stripSlashes = $stripSlashes;
     }
 
-    /**
-     * @return ObjectStorage
-     */
-    public function getDomains() {
+    public function getDomains(): ?ObjectStorage
+    {
         return $this->domains;
     }
 
-    /**
-     * @param ObjectStorage $domains
-     */
-    public function setDomains($domains) {
+    public function setDomains(ObjectStorage $domains)
+    {
         $this->domains = $domains;
     }
 
-    /**
-     * @param \Mittwald\Varnishcache\Domain\Model\SysDomain $domain
-     */
-    public function addDomain(SysDomain $domain) {
+    public function addDomain(SysDomain $domain)
+    {
         $this->domains->attach($domain);
     }
 
-    /**
-     * @param \Mittwald\Varnishcache\Domain\Model\SysDomain $domain
-     */
-    public function removeDomain(SysDomain $domain) {
+    public function removeDomain(SysDomain $domain)
+    {
         $this->domains->detach($domain);
     }
 
     /**
      * Returns request url for curl
      *
-     * @param $frontendUrl
+     * @param string $frontendUrl
      * @return string
      */
-    public function getRequestUrlByFrontendUrl($frontendUrl) {
+    public function getRequestUrlByFrontendUrl(string $frontendUrl): string
+    {
         return $this->getIp() . '/' . ltrim($frontendUrl, '/');
     }
-
 }

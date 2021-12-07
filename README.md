@@ -14,4 +14,4 @@ Additionally, you can configure Varnish servers to clear the Varnish Cache for s
 | ------------------- | ---------- | ----------|---------------------------------------- |
 | 3.x                 | 11.5       | >= 7.4    | Features, Bugfixes, Security Updates    |
 | 2.x                 | 10.4       | 7.2 - 7.4 | Features, Bugfixes, Security Updates    |
-| 1.x                 | 8.7 - 9.5  | 7.0 - 7.4 | Features, Bugfixes, Security Updates    |
+| 1.x                 | 8.7 - 9.5  | 7.0 - 7.4 | Security Updates                        |

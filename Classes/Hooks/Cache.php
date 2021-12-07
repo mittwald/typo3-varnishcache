@@ -1,8 +1,9 @@
 <?php
-/* * *************************************************************
+
+/****************************************************************
  *  Copyright notice
  *
- *  (C) 2015 Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
+ *  (C) Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
  *
  *  All rights reserved
  *
@@ -21,65 +22,46 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+ ***************************************************************/
 
 namespace Mittwald\Varnishcache\Hooks;
 
 use Mittwald\Varnishcache\Service\VarnishCacheService;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-/**
- * Class Cache
- * @package Mittwald\Varnishcache\Hooks
- */
-class Cache extends AbstractHook {
-
+class Cache
+{
+    protected ?VarnishCacheService $varnishCacheService = null;
 
     /**
-     * @var \Mittwald\Varnishcache\Service\VarnishCacheService
-     */
-    protected $varnishCacheService;
-
-    /**
-     * @var \TYPO3\CMS\Core\DataHandling\DataHandler
-     */
-    protected $dataHandler;
-
-
-    /**
-     * Hook for clearing all forntend cache and single cache and even if an tt_content object has changed
+     * Hook for clearing all frontend cache and single cache and even if an tt_content object has changed
      *
      * @param array $params
      * @param DataHandler $dataHandler
      */
-    public function clearCachePostProc(array &$params, DataHandler $dataHandler) {
-
-        if (isset($params['cacheCmd']) && 'pages' === $params['cacheCmd']) {
+    public function clearCachePostProc(array &$params, DataHandler $dataHandler)
+    {
+        if (isset($params['cacheCmd']) && $params['cacheCmd'] === 'pages') {
             $this->getVarnishCacheService()->flushCache(0);
             return;
         }
 
-        if (($params['table'] === 'pages' || $params['table'] === 'tt_content' || isset($params['cacheCmd']))
-                && isset($params['pageIdArray']) && is_array($params['pageIdArray']) && !empty($params['pageIdArray'])
+        if (isset($params['table']) &&
+            ($params['table'] === 'pages' || $params['table'] === 'tt_content' || isset($params['cacheCmd'])) &&
+            isset($params['pageIdArray']) && is_array($params['pageIdArray']) && !empty($params['pageIdArray'])
         ) {
             foreach ($params['pageIdArray'] as $pageId) {
                 $this->getVarnishCacheService()->flushCache($pageId);
             }
-            return;
         }
-
     }
 
-    /**
-     * @return VarnishCacheService
-     */
-    public function getVarnishCacheService() {
+    public function getVarnishCacheService(): VarnishCacheService
+    {
         if (is_null($this->varnishCacheService)) {
-            $this->varnishCacheService = $this->objectManager->get('Mittwald\\Varnishcache\\Service\\VarnishCacheService');
+            $this->varnishCacheService = GeneralUtility::makeInstance(VarnishCacheService::class);
         }
         return $this->varnishCacheService;
     }
-
-
 }
