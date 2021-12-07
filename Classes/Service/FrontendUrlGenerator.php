@@ -76,7 +76,7 @@ class FrontendUrlGenerator
             return '/';
         }
         $site = $this->getSite($uid);
-        return (string)$site->getRouter()->generateUri($uid);
+        return $site->getRouter()->generateUri($uid)->getPath();
     }
 
     /**
