@@ -132,4 +132,15 @@ class Server extends AbstractDomainObject
     {
         return $this->getIp() . '/' . ltrim($frontendUrl, '/');
     }
+
+    /**
+     * Returns request url for curl
+     *
+     * @param string $frontendUrl
+     * @return string
+     */
+    public function getRequestUrlForVarnish(string $frontendUrl): string
+    {
+        return $this->getIp() . ':' . $this->getPort() . '/' . ltrim($frontendUrl, '/');
+    }
 }

@@ -26,6 +26,8 @@
 
 namespace Mittwald\Varnishcache\Service;
 
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
 use Mittwald\Varnishcache\Domain\Model\Server;
 use Mittwald\Varnishcache\Domain\Model\SysDomain;
 use Mittwald\Varnishcache\Domain\Repository\ServerRepository;
@@ -33,6 +35,8 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 
 class VarnishCacheService
 {
+    protected ClientInterface $httpClient;
+    protected RequestFactoryInterface $requestFactory;
     protected FrontendUrlGenerator $frontendUrlGenerator;
     protected ServerRepository $serverRepository;
 
@@ -44,10 +48,14 @@ class VarnishCacheService
      */
     public function __construct(
         FrontendUrlGenerator $frontendUrlGenerator,
-        ServerRepository $serverRepository
+        ServerRepository $serverRepository,
+        ClientInterface $httpClient,
+        RequestFactoryInterface $requestFactory
     ) {
         $this->frontendUrlGenerator = $frontendUrlGenerator;
         $this->serverRepository = $serverRepository;
+        $this->httpClient = $httpClient;
+        $this->requestFactory = $requestFactory;
     }
 
     /**
@@ -74,11 +82,7 @@ class VarnishCacheService
                                 (string)$this->frontendUrlGenerator->getSite($currentPageId)->getBase()
                             )
                         ) {
-                            try {
-                                $this->request($domain, $server, $url);
-                            } catch (\Throwable $exception) {
-                                $varnishFlushed = false;
-                            }
+                            $varnishFlushed = $this->clearVarnishCache($domain, $server, $url);
                         }
                     }
                 }
@@ -89,52 +93,53 @@ class VarnishCacheService
     }
 
     /**
-     * Send curl request
+     * Clears the varnish cache for the given frontend URL
      *
      * @param SysDomain $domain
      * @param Server $server
      * @param string $frontendUrl
+     *
+     * @return bool
      */
-    protected function request(SysDomain $domain, Server $server, string $frontendUrl): void
+    protected function clearVarnishCache(SysDomain $domain, Server $server, string $frontendUrl): bool
     {
-        if (! function_exists('curl_version')) {
-            throw new \BadFunctionCallException('Curl is required but not loaded', 1444895510);
+        $result = true;
+
+        try {
+            if ($server->isStripSlashes()) {
+                $frontendUrl = rtrim($frontendUrl, '/');
+            }
+
+            $url = $server->getRequestUrlForVarnish($frontendUrl);
+            $protocol = $server->getProtocol() === '1' ? '1.0' : '1.1';
+            $request = $this->requestFactory->createRequest($server->getMethod(), $url)
+                ->withAddedHeader('X-Host', $domain->getDomainName())
+                ->withAddedHeader('X-Url', $frontendUrl)
+                ->withProtocolVersion($protocol);
+
+            $response = $this->httpClient->sendRequest($request);
+            if ($response->getStatusCode() !== 200) {
+                $result = false;
+            } else {
+                $this->getBackendUser()->writelog(
+                    3,
+                    1,
+                    0,
+                    0,
+                    'User %s has cleared the varnishcache (server=%s,host=%s, url=%s)',
+                    [
+                        $this->getBackendUser()->user['username'],
+                        $server->getIp(),
+                        $domain->getDomainName(),
+                        $frontendUrl
+                    ]
+                );
+            }
+        } catch (\Exception $e) {
+            $result = false;
         }
 
-        if ($server->isStripSlashes()) {
-            $frontendUrl = rtrim($frontendUrl, '/');
-        }
-
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_HEADER, 1);
-        curl_setopt($curl, CURLOPT_NOBODY, 1);
-        curl_setopt($curl, CURLOPT_PORT, $server->getPort());
-        curl_setopt($curl, CURLOPT_URL, $server->getRequestUrlByFrontendUrl($frontendUrl));
-        curl_setopt(
-            $curl,
-            CURLOPT_HTTP_VERSION,
-            ($server->getProtocol() == 1) ? CURL_HTTP_VERSION_1_0 : CURL_HTTP_VERSION_1_1
-        );
-
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $server->getMethod());
-
-        curl_setopt($curl, CURLOPT_HTTPHEADER, [
-            'X-Host: ' . $domain->getDomainName(),
-            'X-Url: ' . $frontendUrl,
-        ]);
-        curl_setopt($curl, CURLINFO_HEADER_OUT, 1);
-        $header = curl_exec($curl);
-        curl_close($curl);
-
-        $this->getBackendUser()->writelog(
-            3,
-            1,
-            0,
-            0,
-            'User %s has cleared the varnishcache (server=%s,host=%s, url=%s)',
-            [$this->getBackendUser()->user['username'], $server->getIp(), $domain->getDomainName(), $frontendUrl]
-        );
+        return $result;
     }
 
     protected function getBackendUser(): ?BackendUserAuthentication
