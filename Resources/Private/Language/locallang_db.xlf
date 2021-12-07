@@ -23,7 +23,7 @@
                 <source>Varnish method name to clear cache frontend cache</source>
             </trans-unit>
             <trans-unit id="tx_varnishcache_domain_model_server.protocol">
-                <source>Curl protocol</source>
+                <source>HTTP protocol</source>
             </trans-unit>
             <trans-unit id="tx_varnishcache_domain_model_server.domains">
                 <source>Related domains</source>
