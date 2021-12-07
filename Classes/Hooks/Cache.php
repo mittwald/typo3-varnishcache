@@ -29,6 +29,7 @@ namespace Mittwald\Varnishcache\Hooks;
 use Mittwald\Varnishcache\Service\VarnishCacheService;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 class Cache
 {
@@ -42,18 +43,23 @@ class Cache
      */
     public function clearCachePostProc(array &$params, DataHandler $dataHandler)
     {
-        if (isset($params['cacheCmd']) && $params['cacheCmd'] === 'pages') {
+        // Page or system cache has been cleared
+        $cacheCmd = (string)($params['cacheCmd'] ?? '');
+        if (in_array($cacheCmd, ['all', 'pages'])) {
             $this->getVarnishCacheService()->flushCache(0);
-            return;
         }
 
-        if (isset($params['table']) &&
-            ($params['table'] === 'pages' || $params['table'] === 'tt_content' || isset($params['cacheCmd'])) &&
-            isset($params['pageIdArray']) && is_array($params['pageIdArray']) && !empty($params['pageIdArray'])
+        // Cache for a single page has been cleared
+        if (MathUtility::canBeInterpretedAsInteger($cacheCmd)) {
+            $this->getVarnishCacheService()->flushCache((int)$cacheCmd);
+        }
+
+        // Record (pages, tt_content) has changed, clear associated page uid
+        if (isset($params['uid_page']) && isset($params['table']) &&
+            MathUtility::canBeInterpretedAsInteger($params['uid_page']) &&
+            in_array($params['table'], ['pages', 'tt_content'])
         ) {
-            foreach ($params['pageIdArray'] as $pageId) {
-                $this->getVarnishCacheService()->flushCache($pageId);
-            }
+            $this->getVarnishCacheService()->flushCache((int)$params['uid_page']);
         }
     }
 
