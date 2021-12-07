@@ -116,9 +116,9 @@ class EsiTagService
      */
     protected function getKey($content): string
     {
-        $content = str_replace(array('<!--', '-->'), '', $content);
+        $content = str_replace(['<!--', '-->'], '###', $content);
         $matches =[];
-        preg_match('/INT_SCRIPT\.(.*)/', $content, $matches);
+        preg_match('/###INT_SCRIPT\.(.*)###/', $content, $matches);
 
         return $matches[1];
     }
