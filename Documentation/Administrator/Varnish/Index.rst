@@ -59,6 +59,11 @@ a configuration that suits your needs.
 
 The extension ships with 2 example varnish configurations (vcl 3 and vcl 4) in the `Resources/Private/Example` folder.
 
+.. important::
+
+Both varnish configuration files are for demonstration purposes only. It is not recommended to use those configuration
+files as is in production.
+
 Edge Side Includes
 ------------------
 
