@@ -26,6 +26,7 @@
 
 namespace Mittwald\Varnishcache\Renderer;
 
+use Mittwald\Varnishcache\Utility\HmacUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -41,12 +42,19 @@ class ContentElement
     /**
      * @return string
      */
-    public function render()
-    {
+    public function render() {
+        $hmac = (string)GeneralUtility::_GET('hmac') ?? '';
+        if ($hmac === '') {
+            return '';
+        }
+
         $identifier = GeneralUtility::_GET('identifier');
         $key = GeneralUtility::_GET('key');
 
-        if ($identifier && $key) {
+        if ($identifier &&
+            $key &&
+            hash_equals(HmacUtility::hmac(json_encode([$key, $identifier])), $hmac)
+        ) {
             $row = $this->getCacheManager()->get($identifier);
             if ($row) {
                 /* @var $INTiS_cObj ContentObjectRenderer */
@@ -58,6 +66,11 @@ class ContentElement
         }
 
         if (!($cUid = GeneralUtility::_GET('element'))) {
+            return '';
+        }
+
+        $contentElement = BackendUtility::getRecord('tt_content', $cUid);
+        if (!hash_equals(HmacUtility::hmac(json_encode([$cUid, $contentElement['tstamp']])), $hmac)) {
             return '';
         }
 
