@@ -26,6 +26,7 @@
 namespace Mittwald\Varnishcache\Service;
 
 
+use Mittwald\Varnishcache\Utility\HmacUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class EsiTagService
@@ -75,12 +76,14 @@ class EsiTagService
         $typoScriptConfig = $this->typoscriptPluginSettingsService->getConfiguration();
 
         if ($this->isIntObject($content)) {
+            $key = $this->getKey($content);
             $link = $this->contentObjectRenderer->typoLink_URL(array(
                 'parameter' => $GLOBALS['TSFE']->id,
                 'forceAbsoluteUrl' => 1,
                 'additionalParams' => '&type=' . $typoScriptConfig['typeNum']
                     . '&identifier=' . $GLOBALS['TSFE']->newHash
-                    . '&key=' . $this->getKey($content)
+                    . '&key=' . $key
+                    . '&hmac=' . HmacUtility::hmac(json_encode([$key, $GLOBALS['TSFE']->newHash]))
                     . '&varnish=1',
 
             ));
@@ -91,6 +94,7 @@ class EsiTagService
                 'forceAbsoluteUrl' => 1,
                 'additionalParams' => '&element=' . $this->contentObjectRenderer->data['uid']
                     . '&type=' . $typoScriptConfig['typeNum']
+                    . '&hmac=' . HmacUtility::hmac(json_encode([$this->contentObjectRenderer->data['uid'], $this->contentObjectRenderer->data['tstamp']]))
                     . '&varnish=1',
 
             ));

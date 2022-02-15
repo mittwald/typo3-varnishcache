@@ -1,5 +1,4 @@
 <?php
-
 /* * *************************************************************
  *  Copyright notice
  *
@@ -24,32 +23,20 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-$EM_CONF[$_EXTKEY] = array(
-    'title' => 'Varnishcache',
-    'description' => 'This extension provides varnish functionality to TYPO3 instances. Use ESI-Tags and clear varnish cache from TYPO3.',
-    'category' => 'plugin',
-    'author' => 'Mittwald CM Service',
-    'author_company' => 'Mittwald CM Service',
-    'author_email' => 'opensource@mittwald.de',
-    'dependencies' => 'extbase,fluid',
-    'state' => 'stable',
-    'clearCacheOnLoad' => '1',
-    'version' => '2.0.1',
-    'constraints' => array(
-        'depends' => array(
-            'typo3' => '10.4.0-10.4.99',
-        )
-    ),
-    'autoload' => array(
-        'psr-4' =>
-            array(
-                'Mittwald\\Varnishcache\\' => 'Classes',
-            ),
-    ),
-    'autoload-dev' => array(
-        'psr-4' =>
-            array(
-                'Mittwald\Varnishcache\\Tests\\' => 'Tests',
-            ),
-    ),
-);
+namespace Mittwald\Varnishcache\Utility;
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+class HmacUtility
+{
+    /**
+     * Wrapper function for HMAC calculation used globally in the extension
+     *
+     * @param string $input
+     * @return string
+     */
+    public static function hmac($input)
+    {
+        return GeneralUtility::hmac($input, self::class);
+    }
+}
