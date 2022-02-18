@@ -24,6 +24,11 @@ sub vcl_recv {
         }
     }
 
+    # Only cache GET and HEAD requests
+    if (req.method != "GET" && req.method != "HEAD") {
+        return (pass);
+    }
+
     if (req.http.Cookie ~ "be_typo_user" || req.url ~ "^/typo3/") {
         return (pass);
     }
@@ -57,6 +62,11 @@ sub vcl_hit {
 }
 
 sub vcl_backend_response {
+    # Cache only GET or HEAD Requests
+    if (bereq.method != "GET" && bereq.method != "HEAD") {
+        return (pass);
+    }
+
     set beresp.do_esi = true;
 
     if (bereq.url ~ "^[^?]*\.(bmp|bz2|css|doc|eot|flv|gif|gz|ico|jpeg|jpg|js|less|pdf|png|rtf|swf|txt|woff|xml)(\?.*)?$") {
