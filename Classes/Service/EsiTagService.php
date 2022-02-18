@@ -26,7 +26,6 @@
 
 namespace Mittwald\Varnishcache\Service;
 
-
 use Mittwald\Varnishcache\Utility\HmacUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
@@ -104,7 +103,7 @@ class EsiTagService
         return $matches[1];
     }
 
-    protected function wrapEsiTag($content): string
+    protected function wrapEsiTag(string $content): string
     {
         return '<!--esi <esi:include src="' . $content . '" />-->';
     }

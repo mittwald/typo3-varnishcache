@@ -27,6 +27,7 @@
 namespace Mittwald\Varnishcache\Renderer;
 
 use Mittwald\Varnishcache\Utility\HmacUtility;
+use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -42,7 +43,8 @@ class ContentElement
     /**
      * @return string
      */
-    public function render() {
+    public function render()
+    {
         $hmac = (string)GeneralUtility::_GET('hmac') ?? '';
         if ($hmac === '') {
             return '';

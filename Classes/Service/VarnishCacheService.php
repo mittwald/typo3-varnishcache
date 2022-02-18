@@ -26,11 +26,11 @@
 
 namespace Mittwald\Varnishcache\Service;
 
-use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\RequestFactoryInterface;
 use Mittwald\Varnishcache\Domain\Model\Server;
 use Mittwald\Varnishcache\Domain\Model\SysDomain;
 use Mittwald\Varnishcache\Domain\Repository\ServerRepository;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 
 class VarnishCacheService
@@ -40,12 +40,6 @@ class VarnishCacheService
     protected FrontendUrlGenerator $frontendUrlGenerator;
     protected ServerRepository $serverRepository;
 
-    /**
-     * VarnishCacheService constructor.
-     *
-     * @param FrontendUrlGenerator $frontendUrlGenerator
-     * @param ServerRepository $serverRepository
-     */
     public function __construct(
         FrontendUrlGenerator $frontendUrlGenerator,
         ServerRepository $serverRepository,
@@ -131,7 +125,7 @@ class VarnishCacheService
                         $this->getBackendUser()->user['username'],
                         $server->getIp(),
                         $domain->getDomainName(),
-                        $frontendUrl
+                        $frontendUrl,
                     ]
                 );
             }

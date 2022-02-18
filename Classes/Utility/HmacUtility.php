@@ -1,8 +1,9 @@
 <?php
-/* * *************************************************************
+
+/****************************************************************
  *  Copyright notice
  *
- *  (C) 2015 Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
+ *  (C) Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
  *
  *  All rights reserved
  *
@@ -21,7 +22,7 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+ ***************************************************************/
 
 namespace Mittwald\Varnishcache\Utility;
 
@@ -35,7 +36,7 @@ class HmacUtility
      * @param string $input
      * @return string
      */
-    public static function hmac($input)
+    public static function hmac(string $input): string
     {
         return GeneralUtility::hmac($input, self::class);
     }
