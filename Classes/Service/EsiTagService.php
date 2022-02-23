@@ -54,7 +54,10 @@ class EsiTagService
         $this->contentObjectRenderer = $contentObjectRenderer;
         $typoScriptConfig = $this->typoscriptPluginSettingsService->getConfiguration();
 
-        if ($this->isIntObject($content)) {
+        $isIntObject = $this->isIntObject($content);
+        $excludeFromCache = $this->contentObjectRenderer->data['exclude_from_cache'];
+        if ($isIntObject && $excludeFromCache) {
+            // If we have an INT object and ESI is turned on, return URL
             $key = $this->getKey($content);
             $link = $this->contentObjectRenderer->typoLink_URL([
                 'parameter' => $GLOBALS['TSFE']->id,
@@ -67,9 +70,10 @@ class EsiTagService
 
             ]);
             $content = $this->wrapEsiTag($link);
-        } elseif ($this->contentObjectRenderer->data['exclude_from_cache'] &&
+        } elseif ($excludeFromCache &&
             $GLOBALS['TSFE']->type !== (int)($typoScriptConfig['typeNum'] ?? 0)
         ) {
+            // Only, if no INT object and ESI is turned on
             $link = $this->contentObjectRenderer->typoLink_URL([
                 'parameter' => $GLOBALS['TSFE']->id,
                 'forceAbsoluteUrl' => 1,
