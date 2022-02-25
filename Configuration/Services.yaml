@@ -1,0 +1,15 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Mittwald\Varnishcache\:
+    resource: '../Classes/*'
+    exclude: '../Classes/Domain/Model/*'
+
+  Mittwald\Varnishcache\Service\EsiTagService:
+    public: true
+
+  Mittwald\Varnishcache\Service\VarnishCacheService:
+    public: true

@@ -7,11 +7,11 @@ sub vcl_recv {
 
     # Enable BAN 
     if (req.request == "BAN") {
-	if (req.http.X-Host) {
-		ban("req.http.host == " + req.http.X-Host + " && req.url ~ " + req.http.X-Url + "[/]?(?|&|$)"); error 200 "OK";
-	} else {
-		error 400 "Bad Request";
-	}
+        if (req.http.X-Host) {
+            ban("req.http.host == " + req.http.X-Host + " && req.url ~ " + req.http.X-Url + "[/]?(?|&|$)"); error 200 "OK";
+        } else {
+            error 400 "Bad Request";
+        }
     }
 
     if (

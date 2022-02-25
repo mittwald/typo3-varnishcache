@@ -1,8 +1,9 @@
 <?php
-/* * *************************************************************
+
+/****************************************************************
  *  Copyright notice
  *
- *  (C) 2015 Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
+ *  (C) Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
  *
  *  All rights reserved
  *
@@ -21,18 +22,10 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+ ***************************************************************/
 
 namespace Mittwald\Varnishcache\Domain\Repository;
 
-
-use Mittwald\Varnishcache\Domain\Model\SysDomain;
-
-/**
- * Class SysDomainRepository
- * @package Mittwald\Varnishcache\Domain\Repository
- * @method SysDomain[] findAll()
- */
 class SysDomainRepository extends AbstractDisrespectStoragePageRepository
 {
 }

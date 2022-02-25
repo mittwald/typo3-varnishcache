@@ -1,8 +1,9 @@
 <?php
-/* * *************************************************************
+
+/****************************************************************
  *  Copyright notice
  *
- *  (C) 2015 Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
+ *  (C) Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
  *
  *  All rights reserved
  *
@@ -21,57 +22,29 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+ ***************************************************************/
 
 namespace Mittwald\Varnishcache\Frontend\ContentObject;
 
 use Mittwald\Varnishcache\Service\EsiTagService;
-use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
-use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Frontend\ContentObject\AbstractContentObject;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-
-/**
- * Class ContentObjectArrayInternalContentObject
- * @package Mittwald\Varnishcache\Frontend\ContentObject
- */
 class ContentObjectArrayInternalContentObject extends \TYPO3\CMS\Frontend\ContentObject\ContentObjectArrayInternalContentObject
 {
-
-    /**
-     * @var \Mittwald\Varnishcache\Service\EsiTagService
-     */
-    protected $esiTagService;
-
-    public function __construct(ContentObjectRenderer $cObj, EsiTagService $esiTagService)
-    {
-        parent::__construct($cObj);
-        $this->esiTagService = $esiTagService;
-    }
-
     /**
      * @param array $conf
      * @return string
      */
-    public function render($conf = array()): string
+    public function render($conf = []): string
     {
         $content = parent::render($conf);
 
-        if (! ($formVarnish = GeneralUtility::_GET('varnish'))) {
-            $content = $this->getEsiTagService()->render($content, $this->getContentObjectRenderer());
+        $fromVarnish = GeneralUtility::_GET('varnish');
+        if (!$fromVarnish) {
+            $esiTagService = GeneralUtility::makeInstance(EsiTagService::class);
+            $content = $esiTagService->render($content, $this->getContentObjectRenderer());
         }
 
         return $content;
-    }
-
-    /**
-     * @return EsiTagService
-     */
-    protected function getEsiTagService(): EsiTagService
-    {
-        return $this->esiTagService;
     }
 }

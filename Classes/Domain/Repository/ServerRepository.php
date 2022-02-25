@@ -1,8 +1,9 @@
 <?php
-/* * *************************************************************
+
+/****************************************************************
  *  Copyright notice
  *
- *  (C) 2015 Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
+ *  (C) Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
  *
  *  All rights reserved
  *
@@ -21,47 +22,10 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+ ***************************************************************/
 
 namespace Mittwald\Varnishcache\Domain\Repository;
 
-
-use Mittwald\Varnishcache\Domain\Model\Server;
-use TYPO3\CMS\Extbase\Persistence\Generic\Query;
-use TYPO3\CMS\Extbase\Persistence\QueryInterface;
-
-/**
- * Class ServerRepository
- * @package Mittwald\Varnishcache\Domain\Repository
- * @method Server[] findAll()
- */
-class ServerRepository extends AbstractDisrespectStoragePageRepository {
-
-
-    /**
-     * @param array $rootLine
-     */
-    public function findByDomainIsInRootLine(array $rootLine) {
-        $query = $this->createQuery();
-        $query->matching($this->buildRootLineConstraints($query, $rootLine));
-        return $query->execute();
-    }
-
-    /**
-     * @param QueryInterface $query
-     * @param array $rootLine
-     * @return array|object|\TYPO3\CMS\Extbase\Persistence\Generic\Qom\OrInterface
-     */
-    protected function buildRootLineConstraints(QueryInterface $query, array $rootLine) {
-
-        $constraints = array();
-        if (count($rootLine) > 1) {
-            foreach ($rootLine as $pageArray) {
-                $constraints[] = $query->equals('domains.pid', $pageArray['uid']);
-            }
-            $constraints = $query->logicalOr($constraints);
-        }
-
-        return $constraints;
-    }
+class ServerRepository extends AbstractDisrespectStoragePageRepository
+{
 }

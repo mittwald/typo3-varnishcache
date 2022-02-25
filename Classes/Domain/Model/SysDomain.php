@@ -1,8 +1,9 @@
 <?php
-/* * *************************************************************
+
+/****************************************************************
  *  Copyright notice
  *
- *  (C) 2015 Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
+ *  (C) Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
  *
  *  All rights reserved
  *
@@ -21,64 +22,48 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+ ***************************************************************/
 
 namespace Mittwald\Varnishcache\Domain\Model;
 
-use TYPO3\CMS\Extbase\DomainObject\AbstractDomainObject;
 use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
-
 class SysDomain extends AbstractEntity
 {
+    protected string $domainName = '';
 
     /**
-     * @var string
-     */
-    protected $domainName = '';
-
-    /**
-     * @var \TYPO3\CMS\Extbase\Persistence\ObjectStorage<\Mittwald\Varnishcache\Domain\Model\Server>
+     * @var ObjectStorage<Server>
      */
     protected $servers;
 
-    /**
-     * SysDomain constructor.
-     */
     public function __construct()
+    {
+        $this->initializeObject();
+    }
+
+    public function initializeObject()
     {
         $this->servers = new ObjectStorage();
     }
 
-    /**
-     * @return string
-     */
-    public function getDomainName()
+    public function getDomainName(): string
     {
         return $this->domainName;
     }
 
-    /**
-     * @param string $domainName
-     */
-    public function setDomainName($domainName)
+    public function setDomainName(string $domainName): void
     {
         $this->domainName = $domainName;
     }
 
-    /**
-     * @return ObjectStorage
-     */
-    public function getServers()
+    public function getServers(): ?ObjectStorage
     {
         return $this->servers;
     }
 
-    /**
-     * @param ObjectStorage $servers
-     */
-    public function setServers($servers)
+    public function setServers(ObjectStorage $servers)
     {
         $this->servers = $servers;
     }

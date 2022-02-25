@@ -1,8 +1,6 @@
 <?php
 
-if (! defined('TYPO3_MODE')) {
-    die('Access denied.');
-}
+defined('TYPO3') or die();
 
 return (static function () {
     $languageFile = 'LLL:EXT:varnishcache/Resources/Private/Language/locallang_db.xlf:';
@@ -10,12 +8,11 @@ return (static function () {
 
     return [
         'ctrl' => [
-            'title' => $languageFile. 'tx_varnishcache_domain_model_sysdomain.label',
+            'title' => $languageFile . 'tx_varnishcache_domain_model_sysdomain.label',
             'label' => 'domain_name',
             'tstamp' => 'tstamp',
             'crdate' => 'crdate',
             'cruser_id' => 'cruser_id',
-            'dividers2tabs' => true,
             'rootLevel' => -1,
             'delete' => 'deleted',
             'enablecolumns' => [
@@ -25,17 +22,19 @@ return (static function () {
             ],
             'searchFields' => 'domain_name,',
             'typeicon_classes' => [
-                'default' => 'apps-pagetree-page-domain'
-            ]
+                'default' => 'apps-pagetree-page-domain',
+            ],
         ],
         'types' => [
             '0' => [
-                'showitem' => '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, --palette--;;general,--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, --palette--;;hidden, --palette--;;access,'
+                'showitem' => '
+                    domain_name,
+                    --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, 
+                        hidden, --palette--;;startstop',
             ],
         ],
         'palettes' => [
-            'general' => ['showitem' => 'domain_name'],
-            'access' => ['showitem' => 'hidden, --linebreak--, starttime, endtime'],
+            'startstop' => ['showitem' => 'starttime, endtime'],
         ],
         'columns' => [
             'hidden' => [
@@ -43,6 +42,14 @@ return (static function () {
                 'label' => $generalLanguageFile . 'LGL.hidden',
                 'config' => [
                     'type' => 'check',
+                    'renderType' => 'checkboxToggle',
+                    'default' => 0,
+                    'items' => [
+                        [
+                            0 => '',
+                            1 => '',
+                        ],
+                    ],
                 ],
             ],
             'starttime' => [
@@ -55,11 +62,8 @@ return (static function () {
                     'eval' => 'datetime',
                     'checkbox' => 0,
                     'default' => 0,
-                    'behaviour' => [
-                        'allowLanguageSynchronization' => true
-                    ],
                     'range' => [
-                        'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
+                        'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y')),
                     ],
                 ],
             ],
@@ -73,28 +77,25 @@ return (static function () {
                     'eval' => 'datetime',
                     'checkbox' => 0,
                     'default' => 0,
-                    'behaviour' => [
-                        'allowLanguageSynchronization' => true
-                    ],
                     'range' => [
-                        'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
+                        'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y')),
                     ],
                 ],
             ],
             'domain_name' => [
                 'exclude' => 0,
-                'label' => $languageFile. 'tx_varnishcache_domain_model_sysdomain.domain_name',
+                'label' => $languageFile . 'tx_varnishcache_domain_model_sysdomain.domain_name',
                 'config' => [
                     'type' => 'input',
-                    'size' => 10,
-                    'eval' => 'required'
-                ]
+                    'size' => 30,
+                    'eval' => 'required',
+                ],
             ],
             'servers' => [
                 'config' => [
-                    'type' => 'passthrough'
-                ]
-            ]
-        ]
+                    'type' => 'passthrough',
+                ],
+            ],
+        ],
     ];
 })();
