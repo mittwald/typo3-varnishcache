@@ -65,6 +65,7 @@ class EsiTagService
                 'additionalParams' => '&type=' . $typoScriptConfig['typeNum']
                     . '&identifier=' . $GLOBALS['TSFE']->newHash
                     . '&key=' . $this->getKey($content)
+                    . '&hmac=' . HmacUtility::hmac(json_encode([$key, $GLOBALS['TSFE']->newHash]))
                     . '&varnish=1',
 
             ]);
