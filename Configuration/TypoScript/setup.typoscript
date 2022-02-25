@@ -4,11 +4,8 @@ plugin.varnishcache {
     }
 }
 
-plugin.Mittwald\Varnishcache\Hooks\StdWrap.includeLibs = EXT:varnishcache/Classes/Hooks/StdWrap.php
-
 # PostUserFunc to provide ESI-tags
 tt_content.stdWrap.postUserFunc = Mittwald\Varnishcache\Hooks\StdWrap->addEsiTags
-tt_content.stdWrap.postUserFunc.includeLibs = EXT:varnishcache/Classes/Hooks/StdWrap.php
 
 [request.getQueryParams()['type'] == {$plugin.varnishcache.settings.typeNum}]
     tt_content.stdWrap.postUserFunc >
