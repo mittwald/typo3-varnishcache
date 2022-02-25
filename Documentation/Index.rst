@@ -30,7 +30,7 @@ varnishcache
 		varnish,cache,esi
 
 	:Copyright:
-		2015 - 2021
+		2015 - 2022
 
 	:Author:
 		Mittwald CM Service GmbH & Co. KG

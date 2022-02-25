@@ -68,7 +68,7 @@ Edge Side Includes
 ------------------
 
 If the extension is configured properly and ESI support is enabled in your Varnish configuration, Varnish will output
-uncached by fetching the content through a HTTP request.
+content elements makred as "Exclude from cache and use ESI-Tag" by fetching the content through a HTTP request.
 
 .. important::
 
