@@ -55,7 +55,7 @@ class EsiTagService
         $typoScriptConfig = $this->typoscriptPluginSettingsService->getConfiguration();
 
         $isIntObject = $this->isIntObject($content);
-        $excludeFromCache = $this->contentObjectRenderer->data['exclude_from_cache'];
+        $excludeFromCache = $this->contentObjectRenderer->data['exclude_from_cache'] ?? false;
         if ($isIntObject && $excludeFromCache) {
             // If we have an INT object and ESI is turned on, return URL
             $key = $this->getKey($content);
