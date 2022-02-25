@@ -1,6 +1,6 @@
 <?php
 
-/* * *************************************************************
+/***************************************************************
  *  Copyright notice
  *
  *  (C) 2015 Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
@@ -24,7 +24,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
     'title' => 'Varnishcache',
     'description' => 'This extension provides varnish functionality to TYPO3 instances. Use ESI-Tags and clear varnish cache from TYPO3.',
     'category' => 'plugin',
@@ -34,22 +34,10 @@ $EM_CONF[$_EXTKEY] = array(
     'dependencies' => 'extbase,fluid',
     'state' => 'stable',
     'clearCacheOnLoad' => '1',
-    'version' => '2.0.1',
-    'constraints' => array(
-        'depends' => array(
-            'typo3' => '10.4.0-10.4.99',
-        )
-    ),
-    'autoload' => array(
-        'psr-4' =>
-            array(
-                'Mittwald\\Varnishcache\\' => 'Classes',
-            ),
-    ),
-    'autoload-dev' => array(
-        'psr-4' =>
-            array(
-                'Mittwald\Varnishcache\\Tests\\' => 'Tests',
-            ),
-    ),
-);
+    'version' => '3.0.0',
+    'constraints' => [
+        'depends' => [
+            'typo3' => '11.5.0-11.5.99',
+        ]
+    ],
+];

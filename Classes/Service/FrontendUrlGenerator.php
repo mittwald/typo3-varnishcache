@@ -1,8 +1,9 @@
 <?php
-/* * *************************************************************
+
+/****************************************************************
  *  Copyright notice
  *
- *  (C) 2015 Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
+ *  (C) Mittwald CM Service GmbH & Co. KG <opensource@mittwald.de>
  *
  *  All rights reserved
  *
@@ -21,83 +22,61 @@
  *  GNU General Public License for more details.
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
- * ************************************************************* */
+ ***************************************************************/
 
 namespace Mittwald\Varnishcache\Service;
 
-
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Routing\PageRouter;
-use TYPO3\CMS\Core\Routing\SiteRouteResult;
-use TYPO3\CMS\Core\Routing\UrlGenerator;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Site\SiteFinder;
-use TYPO3\CMS\Core\TimeTracker\TimeTracker;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class FrontendUrlGenerator
 {
-    /**
-     * @var PageRouter
-     */
-    protected $pageRouter;
-    /**
-     * @var SiteFinder
-     */
-    private $siteFinder;
-    /**
-     * @var UrlGenerator
-     */
-    private $urlGenerator;
-    /**
-     * @var UriBuilder
-     */
-    private $uriBuilder;
+    protected SiteFinder $siteFinder;
 
-    /**
-     * FrontendUrlGenerator constructor.
-     * @param PageRouter $pageRouter
-     */
-    public function __construct(SiteFinder $siteFinder, UriBuilder $uriBuilder)
+    public function __construct(SiteFinder $siteFinder)
     {
         $this->siteFinder = $siteFinder;
     }
 
     /**
-     * @param $uid
+     * Returns the frontend URL (path) for the given page UID
+     *
+     * @param int $uid
      * @return string
      */
-    public function getFrontendUrl($uid): string
+    public function getFrontendUrl(int $uid): string
     {
-        if ($this->isRootPage($uid)) {
+        if ($uid === 0 || $this->isRootPage($uid)) {
             return '/';
         }
         $site = $this->getSite($uid);
-        return (string)$site->getRouter()->generateUri($uid);
+        return $site->getRouter()->generateUri($uid)->getPath();
     }
 
     /**
-     * @param $uid
+     * Returns the Site object by the given page UID
+     *
+     * @param int $uid
      * @return Site
      * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
      */
-    public function getSite($uid): Site
+    public function getSite(int $uid): Site
     {
         return $this->siteFinder->getSiteByPageId($uid);
     }
 
     /**
-     * @param $uid
+     * Returns, if the given page UID is a root page
+     *
+     * @param int $uid
      * @return bool
      */
-    protected function isRootPage($uid): bool
+    protected function isRootPage(int $uid): bool
     {
         $rootline = BackendUtility::BEgetRootLine($uid);
         if (is_array($rootline) && count($rootline) > 1) {
-            return ($uid == $rootline[1]['uid']);
+            return $uid == $rootline[1]['uid'];
         }
         return false;
     }

@@ -1,6 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea
 .Build/
+.php-cs-fixer.cache
 config/
 var/
 composer.lock

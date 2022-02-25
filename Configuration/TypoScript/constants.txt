@@ -1,6 +1,0 @@
-plugin.varnishcache {
-	settings {
-		# cat=plugin.tx_varnishcache/1; type=int; label=LLL:EXT:varnishcache/Resources/Private/Language/locallang.xlf:varnishcache.constants.page.type_num
-		typeNum = 12345
-	}
-}

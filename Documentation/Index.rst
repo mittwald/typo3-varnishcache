@@ -18,7 +18,7 @@ varnishcache
 		varnishcache
 
 	:Version:
-		1.0.0
+		|release|
 
 	:Language:
 		en
@@ -30,7 +30,7 @@ varnishcache
 		varnish,cache,esi
 
 	:Copyright:
-		2015
+		2015 - 2022
 
 	:Author:
 		Mittwald CM Service GmbH & Co. KG
@@ -58,5 +58,4 @@ varnishcache
 
 	Introduction/Index
 	Administrator/Index
-	Configuration/Index
 	KnownProblems/Index

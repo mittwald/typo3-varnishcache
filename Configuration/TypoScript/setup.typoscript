@@ -1,0 +1,29 @@
+plugin.varnishcache {
+    settings {
+        typeNum = {$plugin.varnishcache.settings.typeNum}
+    }
+}
+
+# PostUserFunc to provide ESI-tags
+tt_content.stdWrap.postUserFunc = Mittwald\Varnishcache\Hooks\StdWrap->addEsiTags
+
+[request.getQueryParams()['type'] == {$plugin.varnishcache.settings.typeNum}]
+    tt_content.stdWrap.postUserFunc >
+[global]
+
+# Configuration of varnish page ESI-tags
+varnish = PAGE
+varnish {
+    typeNum < plugin.varnishcache.settings.typeNum
+
+    config {
+        disableAllHeaderCode = 1
+        sendCacheHeaders = 0
+        no_cache = 1
+    }
+
+    10 = USER
+    10.userFunc = Mittwald\Varnishcache\Renderer\ContentElement->render
+    10.includeLibs = EXT:varnishcache/Classes/Renderer/ContentElement.php
+}
+
