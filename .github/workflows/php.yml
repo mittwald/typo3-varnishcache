@@ -24,6 +24,9 @@ jobs:
     - name: Validate composer.json and composer.lock
       run: composer validate
 
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
     - name: Run PHP linting
       run: find . -name \*.php ! -path "./.Build/*" ! -path "./public/*" ! -path "./vendor/*" | xargs -n1 php -d display_errors=stderr -l
 
