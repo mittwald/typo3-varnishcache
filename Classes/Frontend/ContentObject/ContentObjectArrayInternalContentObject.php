@@ -31,15 +31,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ContentObjectArrayInternalContentObject extends \TYPO3\CMS\Frontend\ContentObject\ContentObjectArrayInternalContentObject
 {
-    /**
-     * @param array $conf
-     * @return string
-     */
     public function render($conf = []): string
     {
         $content = parent::render($conf);
 
-        $fromVarnish = GeneralUtility::_GET('varnish');
+        $fromVarnish = $this->cObj->getRequest()->getQueryParams()['varnish'] ?? null;
         if (!$fromVarnish) {
             $esiTagService = GeneralUtility::makeInstance(EsiTagService::class);
             $content = $esiTagService->render($content, $this->getContentObjectRenderer());

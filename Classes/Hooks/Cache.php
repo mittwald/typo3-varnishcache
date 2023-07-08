@@ -37,11 +37,8 @@ class Cache
 
     /**
      * Hook for clearing all frontend cache and single cache and even if an tt_content object has changed
-     *
-     * @param array $params
-     * @param DataHandler $dataHandler
      */
-    public function clearCachePostProc(array &$params, DataHandler $dataHandler)
+    public function clearCachePostProc(array &$params, DataHandler $dataHandler): void
     {
         // Page or system cache has been cleared
         $cacheCmd = (string)($params['cacheCmd'] ?? '');
@@ -55,9 +52,12 @@ class Cache
         }
 
         // Record (pages, tt_content) has changed, clear associated page uid
-        if (isset($params['uid_page']) && isset($params['table']) &&
+        if (isset($params['uid_page'], $params['table']) &&
             MathUtility::canBeInterpretedAsInteger($params['uid_page']) &&
-            in_array($params['table'], ['pages', 'tt_content'])
+            in_array(
+                $params['table'],
+                ['pages', 'tt_content']
+            )
         ) {
             $this->getVarnishCacheService()->flushCache((int)$params['uid_page']);
         }

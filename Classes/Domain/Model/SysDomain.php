@@ -36,7 +36,7 @@ class SysDomain extends AbstractEntity
     /**
      * @var ObjectStorage<Server>
      */
-    protected $servers;
+    protected ObjectStorage $servers;
 
     public function __construct()
     {
@@ -63,17 +63,17 @@ class SysDomain extends AbstractEntity
         return $this->servers;
     }
 
-    public function setServers(ObjectStorage $servers)
+    public function setServers(ObjectStorage $servers): void
     {
         $this->servers = $servers;
     }
 
-    public function addServer(Server $server)
+    public function addServer(Server $server): void
     {
         $this->servers->attach($server);
     }
 
-    public function removeServer(Server $server)
+    public function removeServer(Server $server): void
     {
         $this->servers->detach($server);
     }

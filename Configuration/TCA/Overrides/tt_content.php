@@ -2,6 +2,8 @@
 
 defined('TYPO3') or die();
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 $tempColumns = [
     'exclude_from_cache' => [
         'exclude' => 1,
@@ -24,8 +26,8 @@ $tempColumns = [
 
 ];
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('tt_content', $tempColumns);
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+ExtensionManagementUtility::addTCAcolumns('tt_content', $tempColumns);
+ExtensionManagementUtility::addToAllTCAtypes(
     'tt_content',
     '--div--;Caching,exclude_from_cache, alternative_content'
 );

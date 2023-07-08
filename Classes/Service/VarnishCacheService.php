@@ -54,11 +54,6 @@ class VarnishCacheService
 
     /**
      * Flush cache for every found domain and given varnish server
-     *
-     * @param int $currentPageId
-     * @return bool
-     *
-     * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
      */
     public function flushCache(int $currentPageId): bool
     {
@@ -88,12 +83,6 @@ class VarnishCacheService
 
     /**
      * Clears the varnish cache for the given frontend URL
-     *
-     * @param SysDomain $domain
-     * @param Server $server
-     * @param string $frontendUrl
-     *
-     * @return bool
      */
     protected function clearVarnishCache(SysDomain $domain, Server $server, string $frontendUrl): bool
     {

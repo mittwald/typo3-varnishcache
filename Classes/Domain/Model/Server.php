@@ -107,26 +107,23 @@ class Server extends AbstractDomainObject
         return $this->domains;
     }
 
-    public function setDomains(ObjectStorage $domains)
+    public function setDomains(ObjectStorage $domains): void
     {
         $this->domains = $domains;
     }
 
-    public function addDomain(SysDomain $domain)
+    public function addDomain(SysDomain $domain): void
     {
         $this->domains->attach($domain);
     }
 
-    public function removeDomain(SysDomain $domain)
+    public function removeDomain(SysDomain $domain): void
     {
         $this->domains->detach($domain);
     }
 
     /**
      * Returns request url for curl
-     *
-     * @param string $frontendUrl
-     * @return string
      */
     public function getRequestUrlByFrontendUrl(string $frontendUrl): string
     {
@@ -135,9 +132,6 @@ class Server extends AbstractDomainObject
 
     /**
      * Returns request url for curl
-     *
-     * @param string $frontendUrl
-     * @return string
      */
     public function getRequestUrlForVarnish(string $frontendUrl): string
     {

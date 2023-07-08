@@ -28,6 +28,7 @@ namespace Mittwald\Varnishcache\Service;
 
 use Mittwald\Varnishcache\Utility\HmacUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class EsiTagService
 {
@@ -44,12 +45,8 @@ class EsiTagService
 
     /**
      * Returns the ESI tag
-     *
-     * @param string $content
-     * @param ContentObjectRenderer $contentObjectRenderer
-     * @return string
      */
-    public function render(string $content, ContentObjectRenderer $contentObjectRenderer)
+    public function render(string $content, ContentObjectRenderer $contentObjectRenderer): string
     {
         $this->contentObjectRenderer = $contentObjectRenderer;
         $typoScriptConfig = $this->typoscriptPluginSettingsService->getConfiguration();
@@ -60,22 +57,22 @@ class EsiTagService
             // If we have an INT object and ESI is turned on, return URL
             $key = $this->getKey($content);
             $link = $this->contentObjectRenderer->typoLink_URL([
-                'parameter' => $GLOBALS['TSFE']->id,
+                'parameter' => $this->getTypoScriptFrontendController()->id,
                 'forceAbsoluteUrl' => 1,
                 'additionalParams' => '&type=' . $typoScriptConfig['typeNum']
-                    . '&identifier=' . $GLOBALS['TSFE']->newHash
+                    . '&identifier=' . $this->getTypoScriptFrontendController()->newHash
                     . '&key=' . $this->getKey($content)
-                    . '&hmac=' . HmacUtility::hmac(json_encode([$key, $GLOBALS['TSFE']->newHash]))
+                    . '&hmac=' . HmacUtility::hmac(json_encode([$key, $this->getTypoScriptFrontendController()->newHash]))
                     . '&varnish=1',
 
             ]);
             $content = $this->wrapEsiTag($link);
         } elseif ($excludeFromCache &&
-            $GLOBALS['TSFE']->type !== (int)($typoScriptConfig['typeNum'] ?? 0)
+            (int)$this->getTypoScriptFrontendController()->getPageArguments()->getPageType() !== (int)($typoScriptConfig['typeNum'] ?? 0)
         ) {
             // Only, if no INT object and ESI is turned on
             $link = $this->contentObjectRenderer->typoLink_URL([
-                'parameter' => $GLOBALS['TSFE']->id,
+                'parameter' => $this->getTypoScriptFrontendController()->id,
                 'forceAbsoluteUrl' => 1,
                 'additionalParams' => '&element=' . $this->contentObjectRenderer->data['uid']
                     . '&type=' . ($typoScriptConfig['typeNum'] ?? 0)
@@ -101,7 +98,7 @@ class EsiTagService
     protected function getKey(string $content): string
     {
         $content = str_replace(['<!--', '-->'], '###', $content);
-        $matches =[];
+        $matches = [];
         preg_match('/###INT_SCRIPT\.(.*)###/', $content, $matches);
 
         return $matches[1];
@@ -114,6 +111,11 @@ class EsiTagService
 
     protected function isIntObject($content): bool
     {
-        return strpos($content, 'INT_SCRIPT') !== false;
+        return str_contains($content, 'INT_SCRIPT');
+    }
+
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }

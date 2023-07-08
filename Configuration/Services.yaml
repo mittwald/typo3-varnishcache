@@ -8,6 +8,11 @@ services:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'
 
+  Mittwald\Varnishcache\Frontend\ContentObject\ContentObjectArrayInternalContentObject:
+    tags:
+      - name: frontend.contentobject
+        identifier: 'COA_INT'
+
   Mittwald\Varnishcache\Service\EsiTagService:
     public: true
 

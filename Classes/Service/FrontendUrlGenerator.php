@@ -41,9 +41,6 @@ class FrontendUrlGenerator
 
     /**
      * Returns the frontend URL (path) for the given page UID
-     *
-     * @param int $uid
-     * @return string
      */
     public function getFrontendUrl(int $uid): string
     {
@@ -56,10 +53,6 @@ class FrontendUrlGenerator
 
     /**
      * Returns the Site object by the given page UID
-     *
-     * @param int $uid
-     * @return Site
-     * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
      */
     public function getSite(int $uid): Site
     {
@@ -68,15 +61,12 @@ class FrontendUrlGenerator
 
     /**
      * Returns, if the given page UID is a root page
-     *
-     * @param int $uid
-     * @return bool
      */
     protected function isRootPage(int $uid): bool
     {
         $rootline = BackendUtility::BEgetRootLine($uid);
         if (is_array($rootline) && count($rootline) > 1) {
-            return $uid == $rootline[1]['uid'];
+            return $rootline[1]['uid'];
         }
         return false;
     }

@@ -35,23 +35,22 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class ContentElement
 {
-    /**
-     * @var ContentObjectRenderer
-     */
-    public $cObj;
+    protected ContentObjectRenderer $cObj;
 
-    /**
-     * @return string
-     */
-    public function render()
+    public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
     {
-        $hmac = (string)GeneralUtility::_GET('hmac') ?? '';
+        $this->cObj = $cObj;
+    }
+
+    public function render(): string
+    {
+        $hmac = (string)($this->cObj->getRequest()->getQueryParams()['hmac'] ?? '');
         if ($hmac === '') {
             return '';
         }
 
-        $identifier = GeneralUtility::_GET('identifier');
-        $key = GeneralUtility::_GET('key');
+        $identifier = $this->cObj->getRequest()->getQueryParams()['identifier'] ?? null;
+        $key = $this->cObj->getRequest()->getQueryParams()['key'] ?? null;
 
         if ($identifier &&
             $key &&
@@ -67,12 +66,14 @@ class ContentElement
             }
         }
 
-        if (!($cUid = GeneralUtility::_GET('element'))) {
+        if (!($cUid = $this->cObj->getRequest()->getQueryParams()['element'] ?? null)) {
             return '';
         }
 
         $contentElement = BackendUtility::getRecord('tt_content', $cUid);
-        if (!hash_equals(HmacUtility::hmac(json_encode([$cUid, $contentElement['tstamp']])), $hmac)) {
+        if (!$contentElement ||
+            !hash_equals(HmacUtility::hmac(json_encode([(int)$cUid, $contentElement['tstamp']])), $hmac)
+        ) {
             return '';
         }
 
@@ -85,10 +86,6 @@ class ContentElement
         return $this->cObj->cObjGetSingle('RECORDS', $configArray);
     }
 
-    /**
-     * @return FrontendInterface
-     * @throws \TYPO3\CMS\Core\Cache\Exception\NoSuchCacheException
-     */
     protected function getCacheManager(): FrontendInterface
     {
         return GeneralUtility::makeInstance(CacheManager::class)->getCache('cache_pages');

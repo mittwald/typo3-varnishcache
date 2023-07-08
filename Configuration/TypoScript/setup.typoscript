@@ -7,7 +7,7 @@ plugin.varnishcache {
 # PostUserFunc to provide ESI-tags
 tt_content.stdWrap.postUserFunc = Mittwald\Varnishcache\Hooks\StdWrap->addEsiTags
 
-[request.getQueryParams()['type'] == {$plugin.varnishcache.settings.typeNum}]
+[request.getPageArguments()?.getPageType() == {$plugin.varnishcache.settings.typeNum}]
     tt_content.stdWrap.postUserFunc >
 [global]
 

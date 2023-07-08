@@ -32,15 +32,14 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class StdWrap
 {
-    /**
-     * @var ContentObjectRenderer
-     */
-    public $cObj;
+    protected ContentObjectRenderer $cObj;
 
-    /**
-     * @var EsiTagService
-     */
-    protected $esiTagService;
+    public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
+    {
+        $this->cObj = $cObj;
+    }
+
+    protected ?EsiTagService $esiTagService = null;
 
     public function __construct()
     {
