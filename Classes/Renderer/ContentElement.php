@@ -88,6 +88,6 @@ class ContentElement
 
     protected function getCacheManager(): FrontendInterface
     {
-        return GeneralUtility::makeInstance(CacheManager::class)->getCache('cache_pages');
+        return GeneralUtility::makeInstance(CacheManager::class)->getCache('pages');
     }
 }
