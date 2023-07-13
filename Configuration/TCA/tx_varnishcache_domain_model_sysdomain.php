@@ -11,7 +11,6 @@ return [
         'label' => 'domain_name',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
-        'cruser_id' => 'cruser_id',
         'rootLevel' => -1,
         'delete' => 'deleted',
         'enablecolumns' => [
@@ -40,7 +39,7 @@ return [
     ],
     'columns' => [
         'hidden' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => $generalLanguageFile . 'LGL.hidden',
             'config' => [
                 'type' => 'check',
@@ -48,39 +47,31 @@ return [
                 'default' => 0,
                 'items' => [
                     [
-                        0 => '',
-                        1 => '',
+                        'label' => '',
+                        'invertStateDisplay' => false,
                     ],
                 ],
             ],
         ],
         'starttime' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => $generalLanguageFile . 'LGL.starttime',
             'config' => [
-                'type' => 'input',
-                'renderType' => 'inputDateTime',
-                'size' => 13,
-                'eval' => 'datetime',
-                'checkbox' => 0,
+                'type' => 'datetime',
                 'default' => 0,
-                'range' => [
-                    'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y')),
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
                 ],
             ],
         ],
         'endtime' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => $generalLanguageFile . 'LGL.endtime',
             'config' => [
-                'type' => 'input',
-                'renderType' => 'inputDateTime',
-                'size' => 13,
-                'eval' => 'datetime',
-                'checkbox' => 0,
+                'type' => 'datetime',
                 'default' => 0,
-                'range' => [
-                    'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y')),
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
                 ],
             ],
         ],
@@ -90,7 +81,7 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 30,
-                'eval' => 'required',
+                'required' => true,
             ],
         ],
         'servers' => [

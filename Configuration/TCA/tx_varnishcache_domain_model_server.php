@@ -11,7 +11,6 @@ return [
         'label' => 'ip',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
-        'cruser_id' => 'cruser_id',
         'rootLevel' => -1,
         'delete' => 'deleted',
         'enablecolumns' => [
@@ -40,7 +39,7 @@ return [
     ],
     'columns' => [
         'hidden' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => $generalLanguageFile . 'LGL.hidden',
             'config' => [
                 'type' => 'check',
@@ -48,39 +47,31 @@ return [
                 'default' => 0,
                 'items' => [
                     [
-                        0 => '',
-                        1 => '',
+                        'label' => '',
+                        'invertStateDisplay' => false,
                     ],
                 ],
             ],
         ],
         'starttime' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => $generalLanguageFile . 'LGL.starttime',
             'config' => [
-                'type' => 'input',
-                'renderType' => 'inputDateTime',
-                'size' => 13,
-                'eval' => 'datetime',
-                'checkbox' => 0,
+                'type' => 'datetime',
                 'default' => 0,
-                'range' => [
-                    'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y')),
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
                 ],
             ],
         ],
         'endtime' => [
-            'exclude' => 1,
+            'exclude' => true,
             'label' => $generalLanguageFile . 'LGL.endtime',
             'config' => [
-                'type' => 'input',
-                'renderType' => 'inputDateTime',
-                'size' => 13,
-                'eval' => 'datetime',
-                'checkbox' => 0,
+                'type' => 'datetime',
                 'default' => 0,
-                'range' => [
-                    'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y')),
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
                 ],
             ],
         ],
@@ -90,17 +81,17 @@ return [
             'config' => [
                 'type' => 'input',
                 'size' => 255,
-                'eval' => 'trim, required',
+                'eval' => 'trim',
+                'required' => true,
             ],
         ],
         'port' => [
             'exclude' => 1,
             'label' => $languageFile . 'tx_varnishcache_domain_model_server.port',
             'config' => [
-                'type' => 'input',
+                'type' => 'number',
                 'size' => 30,
                 'default' => 80,
-                'eval' => 'trim,int',
             ],
         ],
         'method' => [
@@ -110,7 +101,8 @@ return [
                 'type' => 'input',
                 'size' => 30,
                 'default' => 'BAN',
-                'eval' => 'trim, required',
+                'eval' => 'trim',
+                'required' => true,
             ],
         ],
         'protocol' => [
@@ -122,8 +114,8 @@ return [
                 'size' => 1,
                 'minitems' => 1,
                 'items' => [
-                    ['HTTP 1.0', '1'],
-                    ['HTTP 1.1', '2'],
+                    ['label' => 'HTTP 1.0', 'value' => '1'],
+                    ['label' => 'HTTP 1.1', 'value' => '2'],
                 ],
                 'eval' => 'trim',
             ],
@@ -136,8 +128,8 @@ return [
                 'default' => 0,
                 'items' => [
                     [
-                        0 => '',
-                        1 => '',
+                        'label' => '',
+                        'invertStateDisplay' => false,
                     ],
                 ],
 

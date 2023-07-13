@@ -17,7 +17,6 @@ $tempColumns = [
         'label' => 'LLL:EXT:varnishcache/Resources/Private/Language/locallang_db.xlf:tt_content.alternative_content',
         'config' => [
             'type' => 'group',
-            'internal_type' => 'db',
             'allowed' => 'tt_content',
             'default' => 0,
             'size' => 1,
