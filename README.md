@@ -1,6 +1,5 @@
 # varnishcache: Varnish integration into TYPO3 CMS
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/mittwald/typo3-varnishcache/Unit%20tests)
 [![Packagist Version](https://img.shields.io/packagist/v/mittwald/varnishcache)](https://packagist.org/packages/mittwald/varnishcache)
 [![TYPO3 Extension Repository](https://img.shields.io/github/v/release/mittwald/typo3-varnishcache?color=f49700&label=TYPO3%20TER)](https://extensions.typo3.org/extension/varnishcache/)
 ![GitHub](https://img.shields.io/github/license/mittwald/typo3-varnishcache)
@@ -10,8 +9,9 @@ Additionally, you can configure Varnish servers to clear the Varnish Cache for s
 
 ## TYPO3 Compatibility
 
-| Version             | TYPO3      | PHP       | Support/Development                     |
-| ------------------- | ---------- | ----------|---------------------------------------- |
-| 3.x                 | 11.5       | >= 7.4    | Features, Bugfixes, Security Updates    |
-| 2.x                 | 10.4       | 7.2 - 7.4 | Features, Bugfixes, Security Updates    |
-| 1.x                 | 8.7 - 9.5  | 7.0 - 7.4 | Security Updates                        |
+| Version | TYPO3     | PHP       | Support/Development                  |
+|---------|-----------|-----------|--------------------------------------|
+| 4.x     | 12.4      | >= 8.1    | Features, Bugfixes, Security Updates |
+| 3.x     | 11.5      | 7.4 - 8.2 | Features, Bugfixes, Security Updates |
+| 2.x     | 10.4      | 7.2 - 7.4 | Bugfixes, Security Updates           |
+| 1.x     | 8.7 - 9.5 | 7.0 - 7.4 | Security Updates                     |
