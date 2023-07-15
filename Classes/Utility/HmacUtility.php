@@ -32,9 +32,6 @@ class HmacUtility
 {
     /**
      * Wrapper function for HMAC calculation used globally in the extension
-     *
-     * @param string $input
-     * @return string
      */
     public static function hmac(string $input): string
     {

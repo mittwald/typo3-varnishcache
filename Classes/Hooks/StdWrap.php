@@ -56,9 +56,6 @@ class StdWrap
         return $this->getEsiTagService()->render($content, $this->cObj);
     }
 
-    /**
-     * @return EsiTagService
-     */
     public function getEsiTagService(): EsiTagService
     {
         return $this->esiTagService;
