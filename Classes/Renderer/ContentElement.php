@@ -78,9 +78,9 @@ class ContentElement
         }
 
         $configArray = [
-                'tables' => 'tt_content',
-                'source' => $cUid,
-                'dontCheckPid' => 1,
+            'tables' => 'tt_content',
+            'source' => $cUid,
+            'dontCheckPid' => 1,
         ];
 
         return $this->cObj->cObjGetSingle('RECORDS', $configArray);

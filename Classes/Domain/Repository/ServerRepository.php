@@ -26,6 +26,4 @@
 
 namespace Mittwald\Varnishcache\Domain\Repository;
 
-class ServerRepository extends AbstractDisrespectStoragePageRepository
-{
-}
+class ServerRepository extends AbstractDisrespectStoragePageRepository {}
