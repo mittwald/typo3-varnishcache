@@ -60,9 +60,13 @@ class ContentElement
             if ($row) {
                 /* @var $INTiS_cObj ContentObjectRenderer */
                 $key = 'INT_SCRIPT.' . $key;
-                $INTiS_cObj = unserialize($row['cache_data']['INTincScript'][$key]['cObj']);
+                $INTiS_cObj = unserialize($row['INTincScript'][$key]['cObj']);
+                if (!$INTiS_cObj) {
+                    return '';
+                }
+
                 $INTiS_cObj->INT_include = 1;
-                return $INTiS_cObj->cObjGetSingle('USER_INT', $row['cache_data']['INTincScript'][$key]['conf']);
+                return $INTiS_cObj->cObjGetSingle('USER_INT', $row['INTincScript'][$key]['conf']);
             }
         }
 

@@ -26,6 +26,7 @@
 
 namespace Mittwald\Varnishcache\Utility;
 
+use TYPO3\CMS\Core\Crypto\HashService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class HmacUtility
@@ -35,6 +36,6 @@ class HmacUtility
      */
     public static function hmac(string $input): string
     {
-        return GeneralUtility::hmac($input, self::class);
+        return GeneralUtility::makeInstance(HashService::class)->hmac($input, self::class);
     }
 }

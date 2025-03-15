@@ -47,7 +47,7 @@ class Server extends AbstractDomainObject
         $this->initializeObject();
     }
 
-    public function initializeObject()
+    public function initializeObject(): void
     {
         $this->domains = new ObjectStorage();
     }

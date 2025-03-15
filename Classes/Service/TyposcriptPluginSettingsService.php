@@ -30,13 +30,9 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 
 class TyposcriptPluginSettingsService
 {
-    protected ConfigurationManager $configurationManager;
     protected array $configuration = [];
 
-    public function __construct(ConfigurationManager $configurationManager)
-    {
-        $this->configurationManager = $configurationManager;
-    }
+    public function __construct(protected readonly ConfigurationManager $configurationManager) {}
 
     public function getConfiguration(): array
     {

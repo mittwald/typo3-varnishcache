@@ -43,7 +43,7 @@ class SysDomain extends AbstractEntity
         $this->initializeObject();
     }
 
-    public function initializeObject()
+    public function initializeObject(): void
     {
         $this->servers = new ObjectStorage();
     }

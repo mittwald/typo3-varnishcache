@@ -27,68 +27,77 @@
 namespace Mittwald\Varnishcache\Service;
 
 use Mittwald\Varnishcache\Utility\HmacUtility;
+use TYPO3\CMS\Core\Routing\PageArguments;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 class EsiTagService
 {
-    protected ContentObjectRenderer $contentObjectRenderer;
-    protected TyposcriptPluginSettingsService $typoscriptPluginSettingsService;
-
     public function __construct(
-        ContentObjectRenderer $contentObjectRenderer,
-        TyposcriptPluginSettingsService $typoscriptPluginSettingsService
-    ) {
-        $this->contentObjectRenderer = $contentObjectRenderer;
-        $this->typoscriptPluginSettingsService = $typoscriptPluginSettingsService;
-    }
+        protected readonly TyposcriptPluginSettingsService $typoscriptPluginSettingsService
+    ) {}
 
     /**
      * Returns the ESI tag
      */
     public function render(string $content, ContentObjectRenderer $contentObjectRenderer): string
     {
-        $this->contentObjectRenderer = $contentObjectRenderer;
         $typoScriptConfig = $this->typoscriptPluginSettingsService->getConfiguration();
 
+        $request = $contentObjectRenderer->getRequest();
+
+        // Only GET requests are cached by varnish
+        if ($request->getMethod() !== 'GET') {
+            return $content;
+        }
+
+        /** @var PageArguments $routing */
+        $routing = $request->getAttribute('routing');
+
+        // The deprecated TypoScriptFrontendController is used on intention, since this is currently
+        // the only possibility to determine the `newHash` variable (= page cache identifier) in the
+        // rendering process. @todo: evaluate alternative method in v14
+        /** @var TypoScriptFrontendController $frontendController */
+        $frontendController = $request->getAttribute('frontend.controller');
+
         $isIntObject = $this->isIntObject($content);
-        $excludeFromCache = $this->contentObjectRenderer->data['exclude_from_cache'] ?? false;
+        $excludeFromCache = $contentObjectRenderer->data['exclude_from_cache'] ?? false;
         if ($isIntObject && $excludeFromCache) {
             // If we have an INT object and ESI is turned on, return URL
             $key = $this->getKey($content);
-            $link = $this->contentObjectRenderer->typoLink_URL([
-                'parameter' => $this->getTypoScriptFrontendController()->id,
+            $link = $contentObjectRenderer->typoLink_URL([
+                'parameter' => $routing->getPageId(),
                 'forceAbsoluteUrl' => 1,
                 'additionalParams' => '&type=' . $typoScriptConfig['typeNum']
-                    . '&identifier=' . $this->getTypoScriptFrontendController()->newHash
-                    . '&key=' . $this->getKey($content)
-                    . '&hmac=' . HmacUtility::hmac(json_encode([$key, $this->getTypoScriptFrontendController()->newHash]))
+                    . '&identifier=' . $frontendController->newHash
+                    . '&key=' . $key
+                    . '&hmac=' . HmacUtility::hmac(json_encode([$key, $frontendController->newHash]))
                     . '&varnish=1',
 
             ]);
             $content = $this->wrapEsiTag($link);
         } elseif ($excludeFromCache &&
-            (int)$this->getTypoScriptFrontendController()->getPageArguments()->getPageType() !== (int)($typoScriptConfig['typeNum'] ?? 0)
+            (int)$routing->getPageType() !== (int)($typoScriptConfig['typeNum'] ?? 0)
         ) {
             // Only, if no INT object and ESI is turned on
-            $link = $this->contentObjectRenderer->typoLink_URL([
-                'parameter' => $this->getTypoScriptFrontendController()->id,
+            $link = $contentObjectRenderer->typoLink_URL([
+                'parameter' => $routing->getPageId(),
                 'forceAbsoluteUrl' => 1,
-                'additionalParams' => '&element=' . $this->contentObjectRenderer->data['uid']
+                'additionalParams' => '&element=' . $contentObjectRenderer->data['uid']
                     . '&type=' . ($typoScriptConfig['typeNum'] ?? 0)
-                    . '&hmac=' . HmacUtility::hmac(json_encode([$this->contentObjectRenderer->data['uid'], $this->contentObjectRenderer->data['tstamp']]))
+                    . '&hmac=' . HmacUtility::hmac(json_encode([$contentObjectRenderer->data['uid'], $contentObjectRenderer->data['tstamp']]))
                     . '&varnish=1',
 
             ]);
             $content = $this->wrapEsiTag($link);
 
-            if (($cUid = $this->contentObjectRenderer->data['alternative_content'])) {
+            if (($cUid = $contentObjectRenderer->data['alternative_content'])) {
                 $cConf = [
                     'tables' => 'tt_content',
                     'source' => $cUid,
                     'dontCheckPid' => 1,
                 ];
-                $content .= '<esi:remove>' . $this->contentObjectRenderer->cObjGetSingle('RECORDS', $cConf) . '</esi:remove>';
+                $content .= '<esi:remove>' . $contentObjectRenderer->cObjGetSingle('RECORDS', $cConf) . '</esi:remove>';
             }
         }
 
@@ -112,10 +121,5 @@ class EsiTagService
     protected function isIntObject($content): bool
     {
         return str_contains($content, 'INT_SCRIPT');
-    }
-
-    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
-    {
-        return $GLOBALS['TSFE'];
     }
 }

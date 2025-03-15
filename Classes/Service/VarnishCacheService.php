@@ -35,22 +35,12 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 
 class VarnishCacheService
 {
-    protected ClientInterface $httpClient;
-    protected RequestFactoryInterface $requestFactory;
-    protected FrontendUrlGenerator $frontendUrlGenerator;
-    protected ServerRepository $serverRepository;
-
     public function __construct(
-        FrontendUrlGenerator $frontendUrlGenerator,
-        ServerRepository $serverRepository,
-        ClientInterface $httpClient,
-        RequestFactoryInterface $requestFactory
-    ) {
-        $this->frontendUrlGenerator = $frontendUrlGenerator;
-        $this->serverRepository = $serverRepository;
-        $this->httpClient = $httpClient;
-        $this->requestFactory = $requestFactory;
-    }
+        protected readonly FrontendUrlGenerator $frontendUrlGenerator,
+        protected readonly ServerRepository $serverRepository,
+        protected readonly ClientInterface $httpClient,
+        protected readonly RequestFactoryInterface $requestFactory
+    ) {}
 
     /**
      * Flush cache for every found domain and given varnish server

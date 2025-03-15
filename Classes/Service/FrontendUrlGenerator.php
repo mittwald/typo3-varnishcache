@@ -32,12 +32,7 @@ use TYPO3\CMS\Core\Site\SiteFinder;
 
 class FrontendUrlGenerator
 {
-    protected SiteFinder $siteFinder;
-
-    public function __construct(SiteFinder $siteFinder)
-    {
-        $this->siteFinder = $siteFinder;
-    }
+    public function __construct(protected readonly SiteFinder $siteFinder) {}
 
     /**
      * Returns the frontend URL (path) for the given page UID
@@ -66,7 +61,7 @@ class FrontendUrlGenerator
     {
         $rootline = BackendUtility::BEgetRootLine($uid);
         if (is_array($rootline) && count($rootline) > 1) {
-            return $rootline[1]['uid'];
+            return $uid == $rootline[1]['uid'];
         }
         return false;
     }
