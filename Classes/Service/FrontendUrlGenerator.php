@@ -66,7 +66,7 @@ class FrontendUrlGenerator
     {
         $rootline = BackendUtility::BEgetRootLine($uid);
         if (is_array($rootline) && count($rootline) > 1) {
-            return $rootline[1]['uid'];
+            return $uid == $rootline[1]['uid'];
         }
         return false;
     }
